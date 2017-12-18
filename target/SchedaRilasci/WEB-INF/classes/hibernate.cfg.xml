@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory>
+  <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+  <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/rilasci_DB?useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC</property>
+  <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+  <property name="hibernate.current_session_context_class">thread</property>
+  <property name="hibernate.connection.username">rilasci_webapp</property>
+  <property name="hibernate.connection.password">webapp</property>
+  <property name="hibernate.enable_lazy_load_no_trans">true</property>
+  <!--	Disable the second-level cache -->
+  <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+  <!--	Echo all executed SQL to stdout -->
+  <property name="show_sql">false</property>
+  <!--	Mapping  -->
+  <mapping class="entities.Anomalia"/>
+  <mapping class="entities.AnomaliaAssistenza"/>
+  <mapping class="entities.AnomaliaHistory"/>
+  <mapping class="entities.Assignee"/>
+  <mapping class="entities.AssigneeId"/>
+  <mapping class="entities.Checklist"/>
+  <mapping class="entities.ChecklistTestcase"/>
+  <mapping class="entities.Csv"/>
+  <mapping class="entities.Defect"/>
+  <mapping class="entities.DefectHistory"/>
+  <mapping class="entities.Documento"/>
+  <mapping class="entities.Esito"/>
+  <mapping class="entities.LinkedItem"/>
+  <mapping class="entities.LinkedItemId"/>
+  <mapping class="entities.Mev"/>
+  <mapping class="entities.Priority"/>
+  <mapping class="entities.ProgettoSviluppo"/>
+  <mapping class="entities.Project"/>
+  <mapping class="entities.Release"/>
+  <mapping class="entities.ReleaseHistory"/>
+  <mapping class="entities.ReleaseIt"/>
+  <mapping class="entities.ReleaseitHistory"/>
+  <mapping class="entities.Resolution"/>
+  <mapping class="entities.Severity"/>
+  <mapping class="entities.Status"/>
+  <mapping class="entities.Support"/>
+  <mapping class="entities.SupportHistory"/>
+  <mapping class="entities.Task"/>
+  <mapping class="entities.TaskHistory"/>
+  <mapping class="entities.Taskit"/>
+  <mapping class="entities.TaskItHistory"/>
+  <mapping class="entities.TaskitWorkitem"/>
+  <mapping class="entities.Testcase"/>
+  <mapping class="entities.TestcaseHistory"/>
+  <mapping class="entities.TestcaseWorkitem"/>
+  <mapping class="entities.TipoItem"/>
+  <mapping class="entities.TipoRole"/>
+  <mapping class="entities.User"/>
+  <mapping class="entities.Workrecords"/>
+ </session-factory>
+</hibernate-configuration>

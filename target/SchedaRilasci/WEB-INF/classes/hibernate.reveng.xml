@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="rilasci_DB" match-name="anomalia"/>
+  <table-filter match-catalog="rilasci_DB" match-name="anomalia_assistenza"/>
+  <table-filter match-catalog="rilasci_DB" match-name="anomalia_history"/>
+  <table-filter match-catalog="rilasci_DB" match-name="assignee"/>
+  <table-filter match-catalog="rilasci_DB" match-name="checklist"/>
+  <table-filter match-catalog="rilasci_DB" match-name="checklist_testcase"/>
+  <table-filter match-catalog="rilasci_DB" match-name="csv"/>
+  <table-filter match-catalog="rilasci_DB" match-name="defect"/>
+  <table-filter match-catalog="rilasci_DB" match-name="defect_history"/>
+  <table-filter match-catalog="rilasci_DB" match-name="documento"/>
+  <table-filter match-catalog="rilasci_DB" match-name="esito"/>
+  <table-filter match-catalog="rilasci_DB" match-name="linked_item"/>
+  <table-filter match-catalog="rilasci_DB" match-name="mev"/>
+  <table-filter match-catalog="rilasci_DB" match-name="priority"/>
+  <table-filter match-catalog="rilasci_DB" match-name="progetto_sviluppo"/>
+  <table-filter match-catalog="rilasci_DB" match-name="project"/>
+  <table-filter match-catalog="rilasci_DB" match-name="release"/>
+  <table-filter match-catalog="rilasci_DB" match-name="release_history"/>
+  <table-filter match-catalog="rilasci_DB" match-name="release_it"/>
+  <table-filter match-catalog="rilasci_DB" match-name="releaseit_history"/>
+  <table-filter match-catalog="rilasci_DB" match-name="resolution"/>
+  <table-filter match-catalog="rilasci_DB" match-name="severity"/>
+  <table-filter match-catalog="rilasci_DB" match-name="status"/>
+  <table-filter match-catalog="rilasci_DB" match-name="support"/>
+  <table-filter match-catalog="rilasci_DB" match-name="support_history"/>
+  <table-filter match-catalog="rilasci_DB" match-name="task"/>
+  <table-filter match-catalog="rilasci_DB" match-name="task_history"/>
+  <table-filter match-catalog="rilasci_DB" match-name="task_it_history"/>
+  <table-filter match-catalog="rilasci_DB" match-name="taskit"/>
+  <table-filter match-catalog="rilasci_DB" match-name="taskit_workitem"/>
+  <table-filter match-catalog="rilasci_DB" match-name="testcase"/>
+  <table-filter match-catalog="rilasci_DB" match-name="testcase_workitem"/>
+  <table-filter match-catalog="rilasci_DB" match-name="tipo_item"/>
+  <table-filter match-catalog="rilasci_DB" match-name="tipo_role"/>
+  <table-filter match-catalog="rilasci_DB" match-name="user"/>
+  <table-filter match-catalog="rilasci_DB" match-name="workrecords"/>
+</hibernate-reverse-engineering>
