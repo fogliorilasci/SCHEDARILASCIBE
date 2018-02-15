@@ -1,5 +1,7 @@
 package servlets;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,17 +12,26 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.hibernate.Criteria;
-//import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -37,8 +48,13 @@ import entities.Status;
 
 @Path("/")
 public class ServicesGet {
-	
+
 	private static LinkedList<Scheduler> schedulersList = new LinkedList<Scheduler>();
+
+	private JsonObject jsonObject = new JsonObject();
+
+	static ClassLoader classLoader = ServicesGet.class.getClassLoader();
+	private static File file = new File(classLoader.getResource("db.xml").getFile());
 
 	@GET
 	@Path("/getAllStatus")
@@ -85,13 +101,13 @@ public class ServicesGet {
 		Query queryGraph = session
 				.createQuery("SELECT COUNT(*),YEAR(data_creazione) FROM Release GROUP BY YEAR(data_creazione)");
 		List<Gson> result = queryGraph.getResultList();
-		
+
 		session.getTransaction().commit();
-		
+
 		return Response.accepted().entity(result).build();
 
 	}
-	
+
 	@GET
 	@Path("/countRelease")
 	@Produces("application/json")
@@ -105,16 +121,16 @@ public class ServicesGet {
 				.createQuery("SELECT COUNT(*) FROM Release WHERE repository = 'SIRE'");
 		Query querySiss = session
 				.createQuery("SELECT COUNT(*) FROM Release WHERE repository = 'SISS'");
-		
+
 		List<Gson> result = querySire.getResultList();
 		result.addAll(querySiss.getResultList());
 
 		session.getTransaction().commit();
-		
+
 		return Response.accepted().entity(result).build();
 
 	}
-	
+
 	@GET
 	@Path("/graphReleaseIt")
 	@Produces("application/json")
@@ -127,13 +143,13 @@ public class ServicesGet {
 		Query queryGraph = session
 				.createQuery("SELECT COUNT(*),YEAR(data_creazione) FROM ReleaseIt GROUP BY YEAR(data_creazione)");
 		List<Gson> result = queryGraph.getResultList();
-		
+
 		session.getTransaction().commit();
-		
+
 		return Response.accepted().entity(result).build();
 
 	}
-	
+
 	@GET
 	@Path("/countReleaseIt")
 	@Produces("application/json")
@@ -151,15 +167,15 @@ public class ServicesGet {
 				.createQuery("SELECT COUNT(*) FROM ReleaseIt WHERE repository = 'SIRE' AND id_polarion like '%DEROGHE%'");
 		Query querySissDeroghe = session
 				.createQuery("SELECT COUNT(*) FROM ReleaseIt WHERE repository = 'SISS' AND id_polarion like '%DEROGHE%'");
-		
-		
+
+
 		List<Gson> result = querySire.getResultList();
 		result.addAll(querySiss.getResultList());
 		result.addAll(querySireDeroghe.getResultList());
 		result.addAll(querySissDeroghe.getResultList());
 
 		session.getTransaction().commit();
-		
+
 		return Response.accepted().entity(result).build();
 
 	}
@@ -336,9 +352,9 @@ public class ServicesGet {
 		return Response.accepted().entity(result).build();
 
 	}
-	
+
 	/// BatchManager
-	
+
 	@GET
 	@Path("/scheduler/avvia")
 	@Produces("application/json")
@@ -347,25 +363,25 @@ public class ServicesGet {
 			@QueryParam("time") String time,
 			@QueryParam("secondi") String secondi,
 			@QueryParam("tempoEsecuzione") String tempoEsecuzione) {
-		
-		 Scheduler s = null;
-		 if(tipoEsecuzione == null || tempoEsecuzione == null || tipoEsecuzione.equals("undefined") || tempoEsecuzione.equals("undefined")) {
-			 
-			 //response errore
-			 return;
-			 
-		 }
-		 int modalita = Integer.parseInt(tempoEsecuzione);
-		 int operazione = Integer.parseInt(tipoEsecuzione);
-		 long tempo = 0;
-		 System.out.println(!data.equals("unefined"));
-		 System.out.println(time != null);
-		 System.out.println(secondi != null);
-		 if((data != null || !data.equals("undefined")) && (time != null || !time.equals("undefined"))) {
-			 secondi=null;
-			 SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
-			 GregorianCalendar gc = new GregorianCalendar(), tmp = new GregorianCalendar();
-			 try {
+
+		Scheduler s = null;
+		if(tipoEsecuzione == null || tempoEsecuzione == null || tipoEsecuzione.equals("undefined") || tempoEsecuzione.equals("undefined")) {
+
+			//response errore
+			return;
+
+		}
+		int modalita = Integer.parseInt(tempoEsecuzione);
+		int operazione = Integer.parseInt(tipoEsecuzione);
+		long tempo = 0;
+		System.out.println(!data.equals("unefined"));
+		System.out.println(time != null);
+		System.out.println(secondi != null);
+		if((data != null || !data.equals("undefined")) && (time != null || !time.equals("undefined"))) {
+			secondi=null;
+			SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+			GregorianCalendar gc = new GregorianCalendar(), tmp = new GregorianCalendar();
+			try {
 				gc.setTime(sdf.parse(data));
 				tmp.setTime(sdf.parse(time));
 			} catch (ParseException e) {
@@ -374,28 +390,28 @@ public class ServicesGet {
 			gc.set(Calendar.HOUR_OF_DAY, tmp.get(Calendar.HOUR_OF_DAY));
 			gc.set(Calendar.MINUTE, tmp.get(Calendar.MINUTE));
 			gc.set(Calendar.SECOND, tmp.get(Calendar.SECOND));
-			 
-		tempo = gc.getTimeInMillis();
-		 }else if (data == null || data.equals("undefined") && time == null || time.equals("undefined") && secondi != null || !secondi.equals("undefined")) {
+
+			tempo = gc.getTimeInMillis();
+		}else if (data == null || data.equals("undefined") && time == null || time.equals("undefined") && secondi != null || !secondi.equals("undefined")) {
 			data=null;
 			time=null;
-			 tempo = 1000 * Long.parseLong(secondi);
-		 }
-		 else if (data == null || data.equals("undefined") && time == null || time.equals("undefined") && secondi == null || secondi.equals("undefined")) {
-			 
-			 data=null;
-			 time=null;
-			 secondi=null;
-			 tempo = 1000;
-		 }
-		 
-		 s = new Scheduler(modalita, operazione, tempo, "utente_1");
-		 schedulersList.add(s);
-		 s.start();
-	
-	
+			tempo = 1000 * Long.parseLong(secondi);
+		}
+		else if (data == null || data.equals("undefined") && time == null || time.equals("undefined") && secondi == null || secondi.equals("undefined")) {
+
+			data=null;
+			time=null;
+			secondi=null;
+			tempo = 1000;
+		}
+
+		s = new Scheduler(modalita, operazione, tempo, "utente_1");
+		schedulersList.add(s);
+		s.start();
+
+
 	}
-	
+
 	//Elenco Batch attivi
 	@GET
 	@Path("/scheduler/elenco")
@@ -413,28 +429,78 @@ public class ServicesGet {
 				jsonObject.add(index + "", innerObj);
 				index++;
 			}
-			
+
 		}
-		
+
 		System.out.println(jsonObject.toString());
 		return jsonObject.toString();
 	}
-	
+
 	//Stop Batch
 	@GET
 	@Path("/scheduler/stop")
 	@Produces("application/json")
 	public void stopScheduler(@QueryParam("idScheduler") String idScheduler) {
-		
-        for(Scheduler element:schedulersList)
-        {   
-           if(element.getUniqueID().equals(idScheduler)) {
-        	   element.stopScheduler();
-        	 schedulersList.remove(element);   
-           }
-        }
-       // this.getElencoScheduler();
+
+		for(Scheduler element:schedulersList)
+		{   
+			if(element.getUniqueID().equals(idScheduler)) {
+				element.stopScheduler();
+				schedulersList.remove(element);   
+			}
+		}
+		// this.getElencoScheduler();
 	}
+
+	@POST
+	@Path("/checklogin")
+	public Response getCheckLogin(@FormParam("user") String user,@FormParam("psw") String psw) throws ParserConfigurationException, SAXException, IOException {
+
+
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+
+		if (file.exists()) {
+			Document doc = db.parse(file);
+			Element docEle = doc.getDocumentElement();
+
+			NodeList utente = docEle.getElementsByTagName("utente");
+
+			if (utente != null && utente.getLength() > 0) {
+				for (int i = 0; i < utente.getLength(); i++) {
+
+					Node node = utente.item(i);
+
+					if (node.getNodeType() == Node.ELEMENT_NODE) {
+
+						Element e = (Element) node;
+						NodeList nodeListUser = e.getElementsByTagName("username");
+						NodeList nodeListPassword = e.getElementsByTagName("password");
+
+						if(nodeListUser.item(0).getChildNodes().item(0).getNodeValue().equals(user) &&
+								nodeListPassword.item(0).getChildNodes().item(0).getNodeValue().equals(psw)){
+
+							System.out.println(nodeListUser.item(0).getChildNodes().item(0).getNodeValue());
+							System.out.println(nodeListPassword.item(0).getChildNodes().item(0).getNodeValue());
+
+							jsonObject.addProperty("found", "true");
+							jsonObject.addProperty("username", user);
+							return Response.accepted().entity(jsonObject.toString()).build();         
+						}
+					}
+				}
+			} 
+		}
+
+		jsonObject.addProperty("found", "false");
+		jsonObject.addProperty("username", "null");
+		jsonObject.addProperty("err","Username o password non validi");
+
+		return Response.status(Response.Status.BAD_REQUEST).entity(jsonObject.toString()).build();
+	}
+
+
+
 
 
 }
