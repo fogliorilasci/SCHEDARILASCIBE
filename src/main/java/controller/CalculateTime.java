@@ -1,5 +1,6 @@
 package controller;
 
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,22 +41,49 @@ public class CalculateTime {
 		if (diffInDays > 0) {
 			diffHours = diffHours % 24;
 			if (diffHours > 0) {
-				System.out.println("Time in status "+statusName+" : " + diffInDays + " days, " + diffHours
-						+ " hours and " + diffMinutes + " minutes.");
+//				System.out.println("Time in status "+statusName+" : " + diffInDays + " days, " + diffHours
+//						+ " hours and " + diffMinutes + " minutes.");
 				return "Time in status  "+statusName+" : " + diffInDays + " days, " + diffHours + " hours and "
 				+ diffMinutes + " minutes.";
 			} else
-				System.out.println("Time in status  "+statusName+" : " + diffMinutes + " minutes.");
+//				System.out.println("Time in status  "+statusName+" : " + diffMinutes + " minutes.");
 			return "Time in status "+statusName+" : " + diffMinutes + " minutes.";
 		} else{
 			if (diffHours > 0) {
-				System.out.println("Time in status "+statusName+" : " + diffInDays + " days, " + diffHours
-						+ " hours and " + diffMinutes + " minutes.");
+//				System.out.println("Time in status "+statusName+" : " + diffInDays + " days, " + diffHours
+//						+ " hours and " + diffMinutes + " minutes.");
 				return "Time in status "+statusName+" : " + diffInDays + " days, " + diffHours + " hours and "
 				+ diffMinutes + " minutes.";
 			} else
-				System.out.println("Time in status  "+statusName+" : " + diffMinutes + " minutes.");
+//				System.out.println("Time in status  "+statusName+" : " + diffMinutes + " minutes.");
 			return "Time in status "+statusName+" : " + diffMinutes + " minutes.";
+		}
+	}
+	
+	public static String getTimeInDayHourMin(long diff) {
+		long diffMinutes = diff / (60 * 1000) % 60;
+		long diffHours = diff / (60 * 60 * 1000);
+		int diffInDays = (int) ((diff) / (1000 * 60 * 60 * 24));
+
+		if (diffInDays > 0) {
+			diffHours = diffHours % 24;
+			if (diffHours > 0) {
+//				System.out.println(diffInDays + " days, " + diffHours
+//						+ " hours and " + diffMinutes + " minutes.");
+				return diffInDays + " days, " + diffHours + " hours and "
+				+ diffMinutes + " minutes.";
+			} else
+//				System.out.println(diffMinutes + " minutes.");
+			return diffMinutes + " minutes.";
+		} else{
+			if (diffHours > 0) {
+//				System.out.println(diffInDays + " days, " + diffHours
+//						+ " hours and " + diffMinutes + " minutes.");
+				return diffInDays + " days, " + diffHours + " hours and "
+				+ diffMinutes + " minutes.";
+			} else
+//				System.out.println(diffMinutes + " minutes.");
+			return diffMinutes + " minutes.";
 		}
 	}
 
@@ -108,6 +136,36 @@ public class CalculateTime {
 
 	public static void setListFiltrata(List<Object> listFiltrata) {
 		CalculateTime.listFiltrata = listFiltrata;
+	}
+	
+	public static String getTotalTimeWorking(Date startDate, Date endDate){
+		String hours = Time.numberOfWorkingHoursInPeriod(startDate, endDate);
+		
+		int diffH = 0;
+		int diffM = 0;
+		if(hours.contains(":")){
+		diffH = Integer.parseInt(hours.substring(0, hours.indexOf(":")));
+		diffM = Integer.parseInt(hours.substring(hours.indexOf(":")+1));
+		}
+		else diffH = Integer.parseInt(hours);
+		
+		long diffHours = diffH % 24;
+		int diffInDays = (int) ((diffH) / 24);
+
+		if (diffInDays > 0) {
+			if (diffHours > 0) {
+				return diffInDays + " days, " + diffHours + " hours and "
+				+ diffM + " minutes.";
+			} else
+			return diffM + " minutes.";
+		} else{
+			if (diffHours > 0) {
+				return diffInDays + " days, " + diffHours + " hours and "
+				+ diffM + " minutes.";
+			} else
+			return diffM + " minutes.";
+		}
+		
 	}
 
 }
