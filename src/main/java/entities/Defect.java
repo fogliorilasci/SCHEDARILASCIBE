@@ -26,6 +26,10 @@ import javax.persistence.UniqueConstraint;
 		@UniqueConstraint(columnNames = "cod_severity"), @UniqueConstraint(columnNames = "id_polarion") })
 public class Defect implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Priority priority;
 	private Resolution resolution;
@@ -91,7 +95,7 @@ public class Defect implements java.io.Serializable {
 		this.severity = severity;
 	}
 
-	@Column(name = "id_polarion", length = 45)
+	@Column(name = "id_polarion", length = 255)
 	public String getIdPolarion() {
 		return this.idPolarion;
 	}

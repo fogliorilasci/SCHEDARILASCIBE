@@ -21,6 +21,10 @@ import javax.persistence.TemporalType;
 @Table(name = "taskit_workitem", catalog = "rilasci_db")
 public class TaskitWorkitem implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Taskit taskit;
 	private User user;
@@ -58,7 +62,7 @@ public class TaskitWorkitem implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "cod_taskit", nullable = false)
+	@JoinColumn(name = "cod_taskit")
 	public Taskit getTaskit() {
 		return this.taskit;
 	}

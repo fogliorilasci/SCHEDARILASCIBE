@@ -24,6 +24,10 @@ import javax.persistence.TemporalType;
 @Table(name = "checklist", catalog = "rilasci_db")
 public class Checklist implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String idPolarion;
 	private Date dataCreazione;
@@ -57,7 +61,7 @@ public class Checklist implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "id_polarion", length = 45)
+	@Column(name = "id_polarion", length = 65535)
 	public String getIdPolarion() {
 		return this.idPolarion;
 	}

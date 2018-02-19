@@ -24,6 +24,10 @@ import javax.persistence.TemporalType;
 @Table(name = "release_it", catalog = "rilasci_db")
 public class ReleaseIt implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Priority priority;
 	private Severity severity;
@@ -86,7 +90,7 @@ public class ReleaseIt implements java.io.Serializable {
 		this.severity = severity;
 	}
 
-	@Column(name = "id_polarion", length = 45)
+	@Column(name = "id_polarion", length = 255)
 	public String getIdPolarion() {
 		return this.idPolarion;
 	}

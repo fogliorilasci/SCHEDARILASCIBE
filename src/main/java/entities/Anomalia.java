@@ -24,6 +24,10 @@ import javax.persistence.TemporalType;
 @Table(name = "anomalia", catalog = "rilasci_db")
 public class Anomalia implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Priority priority;
 	private Resolution resolution;
@@ -89,7 +93,7 @@ public class Anomalia implements java.io.Serializable {
 		this.severity = severity;
 	}
 
-	@Column(name = "id_polarion", length = 45)
+	@Column(name = "id_polarion", length = 65535)
 	public String getIdPolarion() {
 		return this.idPolarion;
 	}

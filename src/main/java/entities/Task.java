@@ -25,6 +25,10 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "task", catalog = "rilasci_db", uniqueConstraints = @UniqueConstraint(columnNames = "id_polarion"))
 public class Task implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Priority priority;
 	private Resolution resolution;
@@ -108,7 +112,7 @@ public class Task implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "cod_author", nullable = false)
+	@JoinColumn(name = "cod_author")
 	public User getUser() {
 		return this.user;
 	}
@@ -117,7 +121,7 @@ public class Task implements java.io.Serializable {
 		this.user = user;
 	}
 
-	@Column(name = "id_polarion", unique = true, length = 45)
+	@Column(name = "id_polarion", unique = true, length = 255)
 	public String getIdPolarion() {
 		return this.idPolarion;
 	}
@@ -126,7 +130,7 @@ public class Task implements java.io.Serializable {
 		this.idPolarion = idPolarion;
 	}
 
-	@Column(name = "titolo", length = 45)
+	@Column(name = "titolo", length = 65535)
 	public String getTitolo() {
 		return this.titolo;
 	}

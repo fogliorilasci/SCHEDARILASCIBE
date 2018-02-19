@@ -19,6 +19,10 @@ import javax.persistence.Table;
 @Table(name = "priority", catalog = "rilasci_db")
 public class Priority implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String nome;
 	private Float valore;

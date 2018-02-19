@@ -21,6 +21,10 @@ import javax.persistence.TemporalType;
 @Table(name = "task_it_history", catalog = "rilasci_db")
 public class TaskItHistory implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Status status;
 	private Taskit taskit;

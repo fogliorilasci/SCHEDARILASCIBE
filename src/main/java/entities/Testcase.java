@@ -25,6 +25,10 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "testcase", catalog = "rilasci_db", uniqueConstraints = @UniqueConstraint(columnNames = "id_polarion"))
 public class Testcase implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Priority priority;
 	private Resolution resolution;
@@ -121,7 +125,7 @@ public class Testcase implements java.io.Serializable {
 		this.user = user;
 	}
 
-	@Column(name = "id_polarion", length = 45)
+	@Column(name = "id_polarion", length = 255)
 	public String getIdPolarion() {
 		return this.idPolarion;
 	}
@@ -130,7 +134,7 @@ public class Testcase implements java.io.Serializable {
 		this.idPolarion = idPolarion;
 	}
 
-	@Column(name = "titolo", length = 45)
+	@Column(name = "titolo", length = 65535)
 	public String getTitolo() {
 		return this.titolo;
 	}

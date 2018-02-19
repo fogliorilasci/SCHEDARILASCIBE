@@ -19,6 +19,10 @@ import javax.persistence.Table;
 @Table(name = "user", catalog = "rilasci_db")
 public class User implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String nome;
 	private String idPolarion;
@@ -97,7 +101,7 @@ public class User implements java.io.Serializable {
 		this.nome = nome;
 	}
 
-	@Column(name = "id_polarion", length = 45)
+	@Column(name = "id_polarion", length = 255)
 	public String getIdPolarion() {
 		return this.idPolarion;
 	}

@@ -20,6 +20,10 @@ import javax.persistence.Table;
 @Table(name = "esito", catalog = "rilasci_db")
 public class Esito implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String nome;
 	private Set<ChecklistTestcase> checklistTestcases = new HashSet<ChecklistTestcase>(0);

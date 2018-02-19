@@ -21,6 +21,10 @@ import javax.persistence.TemporalType;
 @Table(name = "release_history", catalog = "rilasci_db")
 public class ReleaseHistory implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Release release;
 	private Status status;

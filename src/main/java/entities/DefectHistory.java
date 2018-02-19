@@ -21,6 +21,10 @@ import javax.persistence.TemporalType;
 @Table(name = "defect_history", catalog = "rilasci_db")
 public class DefectHistory implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Defect defect;
 	private Status status;

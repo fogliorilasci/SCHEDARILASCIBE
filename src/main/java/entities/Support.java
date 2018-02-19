@@ -26,6 +26,10 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "support", catalog = "rilasci_db", uniqueConstraints = @UniqueConstraint(columnNames = "id_polarion"))
 public class Support implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private Priority priority;
 	private Resolution resolution;
@@ -96,7 +100,7 @@ public class Support implements java.io.Serializable {
 		this.severity = severity;
 	}
 
-	@Column(name = "id_polarion", length = 45)
+	@Column(name = "id_polarion", length = 255)
 	public String getIdPolarion() {
 		return this.idPolarion;
 	}

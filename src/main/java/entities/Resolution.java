@@ -19,6 +19,10 @@ import javax.persistence.Table;
 @Table(name = "resolution", catalog = "rilasci_db")
 public class Resolution implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String nome;
 	private String polarionName;

@@ -10,6 +10,10 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class AssigneeId implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int codIdUser;
 	private String codIdPolarion;
 

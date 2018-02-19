@@ -24,6 +24,10 @@ import javax.persistence.TemporalType;
 @Table(name = "taskit", catalog = "rilasci_db")
 public class Taskit implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Priority priority;
 	private Resolution resolution;
@@ -112,7 +116,7 @@ public class Taskit implements java.io.Serializable {
 		this.user = user;
 	}
 
-	@Column(name = "id_polarion", length = 45)
+	@Column(name = "id_polarion", length = 255)
 	public String getIdPolarion() {
 		return this.idPolarion;
 	}

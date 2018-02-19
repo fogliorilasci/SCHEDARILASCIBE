@@ -18,6 +18,10 @@ import javax.persistence.Table;
 @Table(name = "linked_item", catalog = "rilasci_db")
 public class LinkedItem implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private LinkedItemId id;
 	private TipoRole tipoRole;
 

@@ -27,6 +27,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
+import org.json.simple.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -39,6 +40,13 @@ import com.google.gson.JsonObject;
 import basic.HibernateUtil;
 import basic.Scheduler;
 import controller.CalculateTime;
+import controller.JsonReleaseAnomalia;
+import controller.JsonReleaseDefect;
+import controller.JsonReleaseDocumenti;
+import controller.JsonReleaseInfoGeneral;
+import controller.JsonReleaseMev;
+import controller.JsonReleaseProgettoSviluppo;
+import controller.JsonReleaseStatus;
 import entities.Csv;
 import entities.Release;
 import entities.ReleaseHistory;
@@ -499,7 +507,27 @@ public class ServicesGet {
 		return Response.status(Response.Status.BAD_REQUEST).entity(jsonObject.toString()).build();
 	}
 
+	@POST
+	@Path("/infoReleaseProgetto")
+	@Produces("application/json")
+	public JSONObject getInfoReleaseProgetto(@QueryParam("param") String param) {
 
+		JSONObject obj = JsonReleaseInfoGeneral.getReleaseGeneralInfo(param);
+		obj.put("infoMev", JsonReleaseMev.getReleaseMevInfo(param));
+		obj.put("infoProgettoSviluppo", JsonReleaseProgettoSviluppo.getReleaseProgettoSviluppoInfo(param));
+		obj.put("infoAnomalia", JsonReleaseAnomalia.getReleaseDefectInfo(param));
+		obj.put("infoDefect", JsonReleaseDefect.getReleaseDefectInfo(param));
+		obj.put("infoDocumenti", JsonReleaseDocumenti.getReleaseDocumentiInfo(param));
+		if(JsonReleaseStatus.getReleaseStatusInfo(param) != null){
+		obj.put("infoStatus", JsonReleaseStatus.getReleaseStatusInfo(param));
+		}
+		
+		System.out.println("-----------JSON-----------");
+		System.out.println(obj);
+		System.out.println("--------------------------");
+		
+		return obj;
+	}
 
 
 

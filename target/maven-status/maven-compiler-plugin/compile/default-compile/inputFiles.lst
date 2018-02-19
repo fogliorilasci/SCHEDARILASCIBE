@@ -1,47 +1,57 @@
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Support.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Csv.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\DefectHistory.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\LinkedItemId.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\ChecklistTestcase.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\SupportHistory.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\TaskitWorkitem.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Priority.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Testcase.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\controller\Time.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\TestcaseHistory.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\AssigneeId.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\TipoRole.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Assignee.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Checklist.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\ReleaseitHistory.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\TaskItHistory.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Resolution.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Task.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Severity.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\basic\Scheduler.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Release.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\servlets\ServicesGet.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Defect.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\ReleaseIt.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Documento.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\basic\HibernateUtil.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\AnomaliaHistory.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Project.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\TipoItem.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Esito.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\User.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Status.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Workrecords.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\basic\State.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Taskit.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\servlets\ServiceProva.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\ReleaseHistory.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Mev.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\TestcaseWorkitem.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\AnomaliaAssistenza.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\TaskHistory.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\LinkedItem.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\controller\CalculateTime.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\Anomalia.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\basic\Util.java
-C:\SCHEDA RILASCI\OTTIMIZZAZIONE CODICE\Projects\SchedaRilasci\src\main\java\entities\ProgettoSviluppo.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\AnomaliaHistory.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Checklist.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Task.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\SupportHistory.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\TestcaseWorkitem.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Taskit.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Release.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\controller\JsonReleaseAnomalia.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\controller\QueryReleaseIT.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\TaskHistory.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\AnomaliaAssistenza.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\LinkedItem.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Documento.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Testcase.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\TestcaseHistory.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Esito.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Project.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\ReleaseIt.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\controller\JsonReleaseMev.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Csv.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Priority.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Status.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\DefectHistory.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\TipoItem.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Severity.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\User.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\controller\JsonReleaseDefect.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\ChecklistTestcase.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\controller\JsonReleaseITGeneralInfo.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Workrecords.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\LinkedItemId.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\ProgettoSviluppo.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\TaskitWorkitem.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\controller\Time.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\controller\JsonReleaseProgettoSviluppo.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\ReleaseHistory.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\servlets\ServicesGet.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\basic\Util.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Mev.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\basic\HibernateUtil.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Support.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\controller\QueryInfoRelease.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Anomalia.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\AssigneeId.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Defect.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\TipoRole.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\basic\Scheduler.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\controller\JsonReleaseInfoGeneral.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Resolution.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\controller\JsonReleaseStatus.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\ReleaseitHistory.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\basic\State.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\controller\JsonReleaseDocumenti.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\servlets\ServiceProva.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\Assignee.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\controller\CalculateTime.java
+D:\VinsCAPGEMINI\SCHEDARILASCI\GIT\SCHEDARILASCIBE\src\main\java\entities\TaskItHistory.java

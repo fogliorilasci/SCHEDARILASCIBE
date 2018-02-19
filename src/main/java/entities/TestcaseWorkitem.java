@@ -21,6 +21,10 @@ import javax.persistence.TemporalType;
 @Table(name = "testcase_workitem", catalog = "rilasci_db")
 public class TestcaseWorkitem implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Testcase testcase;
 	private User user;
@@ -58,7 +62,7 @@ public class TestcaseWorkitem implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "cod_testcase", nullable = false)
+	@JoinColumn(name = "cod_testcase")
 	public Testcase getTestcase() {
 		return this.testcase;
 	}
@@ -87,7 +91,7 @@ public class TestcaseWorkitem implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "data_creazione", nullable = false, length = 10)
+	@Column(name = "data_creazione", length = 10)
 	public Date getDataCreazione() {
 		return this.dataCreazione;
 	}
@@ -97,7 +101,7 @@ public class TestcaseWorkitem implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.TIME)
-	@Column(name = "timespent", nullable = false, length = 8)
+	@Column(name = "timespent", length = 8)
 	public Date getTimespent() {
 		return this.timespent;
 	}

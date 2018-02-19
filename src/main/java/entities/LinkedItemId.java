@@ -10,6 +10,10 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class LinkedItemId implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String idPolarionPadre;
 	private String idPolarionFiglio;
 
@@ -21,7 +25,7 @@ public class LinkedItemId implements java.io.Serializable {
 		this.idPolarionFiglio = idPolarionFiglio;
 	}
 
-	@Column(name = "id_polarion_padre", nullable = false, length = 45)
+	@Column(name = "id_polarion_padre", nullable = false, length = 255)
 	public String getIdPolarionPadre() {
 		return this.idPolarionPadre;
 	}
@@ -30,7 +34,7 @@ public class LinkedItemId implements java.io.Serializable {
 		this.idPolarionPadre = idPolarionPadre;
 	}
 
-	@Column(name = "id_polarion_figlio", nullable = false, length = 45)
+	@Column(name = "id_polarion_figlio", nullable = false, length = 255)
 	public String getIdPolarionFiglio() {
 		return this.idPolarionFiglio;
 	}

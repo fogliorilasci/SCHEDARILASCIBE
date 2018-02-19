@@ -19,6 +19,10 @@ import javax.persistence.Table;
 @Table(name = "tipo_item", catalog = "rilasci_db")
 public class TipoItem implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String nome;
 	private Set<Documento> documentos = new HashSet<Documento>(0);

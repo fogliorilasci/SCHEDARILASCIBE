@@ -39,8 +39,10 @@ import entities.Severity;
 import entities.Status;
 import entities.Support;
 import entities.SupportHistory;
+import entities.TaskItHistory;
 import entities.Taskit;
 import entities.Testcase;
+import entities.TestcaseHistory;
 import entities.TipoItem;
 import entities.User;
 import entities.Workrecords;
@@ -52,9 +54,9 @@ public class HibernateUtil {
 	 * https://stackoverflow.com/questions/32405031/hibernate-5-org-hibernate-
 	 * mappingexception-unknown-entity
 	 */
-	private static final SessionFactory sessionFactory = buildSessionFactory();
+	private static SessionFactory sessionFactory = buildSessionFactory();
 
-	private synchronized static SessionFactory buildSessionFactory() {
+	private static SessionFactory buildSessionFactory() {
 		try {
 			return new Configuration().configure().buildSessionFactory();
 		} catch (Throwable ex) {
@@ -64,11 +66,13 @@ public class HibernateUtil {
 		}
 	}
 
-	public synchronized static SessionFactory getSessionFactory() {
+	public static SessionFactory getSessionFactory() {
+		if (sessionFactory == null)
+			sessionFactory = buildSessionFactory();
 		return sessionFactory;
 	}
 
-	public synchronized static List<Csv> readAllCsv() {
+	public static List<Csv> readAllCsv() {
 		List<Csv> list = null;
 		try {
 			Session session = getSessionFactory().getCurrentSession();
@@ -93,8 +97,90 @@ public class HibernateUtil {
 		}
 		return list;
 	}
+	
+	public static List<Documento> readAllDocuments() {
+		List<Documento> list = null;
+		try {
+			Session session = getSessionFactory().getCurrentSession();
+			if (!session.getTransaction().isActive())
+				session.beginTransaction();
 
-	public synchronized static Project readProjectForName(String name) {
+			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+			CriteriaQuery<Documento> criteriaQuery = criteriaBuilder.createQuery(Documento.class);
+			Root<Documento> root = criteriaQuery.from(Documento.class);
+
+			// Query
+			criteriaQuery.select(root);
+
+			Query<Documento> query = session.createQuery(criteriaQuery);
+			list = query.getResultList();
+
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			if (Util.DEBUG)
+				Util.writeLog("HibernateUtil.java throws exception", e);
+			Logger.getLogger(HibernateUtil.class.getName()).log(Level.SEVERE, "HibernateUtil.java throws exception", e);
+		}
+		return list;
+	}
+	
+	public static List<Testcase> readAllTestcase() {
+		List<Testcase> list = null;
+		try {
+			Session session = getSessionFactory().getCurrentSession();
+			if (!session.getTransaction().isActive())
+				session.beginTransaction();
+
+			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+			CriteriaQuery<Testcase> criteriaQuery = criteriaBuilder.createQuery(Testcase.class);
+			Root<Testcase> root = criteriaQuery.from(Testcase.class);
+
+			// Query
+			criteriaQuery.select(root);
+
+			Query<Testcase> query = session.createQuery(criteriaQuery);
+			list = query.getResultList();
+
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			if (Util.DEBUG)
+				Util.writeLog("HibernateUtil.java throws exception", e);
+			Logger.getLogger(HibernateUtil.class.getName()).log(Level.SEVERE, "HibernateUtil.java throws exception", e);
+		}
+		return list;
+	}
+	
+	public static List<TestcaseHistory> readTestcaseHistory(Testcase tc) {
+
+		Session session = getSessionFactory().getCurrentSession();
+		if (!session.getTransaction().isActive())
+			session.beginTransaction();
+
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<TestcaseHistory> cq = builder.createQuery(TestcaseHistory.class);
+		Root<TestcaseHistory> root = cq.from(TestcaseHistory.class);
+
+		// Query
+		cq.select(root).where(builder.equal(root.get("testcase"), tc));
+		cq.orderBy(builder.asc(root.get("data")));
+		
+		Query<TestcaseHistory> q = session.createQuery(cq);
+
+		List<TestcaseHistory> list = null;
+		
+		try {
+			list = q.getResultList();
+		} catch (NonUniqueResultException e) {
+			if (Util.DEBUG)
+				Util.writeLog("HibernateUtil.java throws exception", e);
+			Logger.getLogger(HibernateUtil.class.getName()).log(Level.SEVERE, "HibernateUtil.java throws exception", e);
+		}
+		
+		session.getTransaction().commit();
+		
+		return list;
+	}
+	public static Project readProjectForName(String name) {
 
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
@@ -124,7 +210,7 @@ public class HibernateUtil {
 		return p;
 	}
 
-	public synchronized static Priority readPriority(float d) {
+	public static Priority readPriority(float d) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -154,7 +240,7 @@ public class HibernateUtil {
 		return p;
 	}
 
-	public synchronized static Severity readSeverity(String name) {
+	public static Severity readSeverity(String name) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -184,7 +270,30 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static Status readStatus(String name) {
+	public static List<Status> readAllStatus() {
+		Session session = getSessionFactory().getCurrentSession();
+		if (!session.getTransaction().isActive())
+			session.beginTransaction();
+
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Status> cq = builder.createQuery(Status.class);
+		Root<Status> root = cq.from(Status.class);
+
+		// Query
+		cq.select(root);
+		Query<Status> q = session.createQuery(cq);
+		List<Status> s = null;
+
+		try {
+			s = q.getResultList();
+		} catch (NoResultException ex) {
+			s = null;
+		}
+		session.getTransaction().commit();
+		return s;
+	}
+
+	public static Status readStatus(String name) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -213,7 +322,7 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static Csv readCsvByIdPolarion(String idPolarion) {
+	public static Csv readCsvByIdPolarion(String idPolarion) {
 		try {
 			Session session = getSessionFactory().getCurrentSession();
 			if (!session.getTransaction().isActive())
@@ -242,7 +351,7 @@ public class HibernateUtil {
 		return null;
 	}
 
-	public synchronized static User readUser(String idPolarion) {
+	public static User readUser(String idPolarion) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -271,7 +380,7 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static Release readRelease(String idPolarion) {
+	public static Release readRelease(String idPolarion) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -300,7 +409,7 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static ReleaseIt readReleaseIT(String idPolarion) {
+	public static ReleaseIt readReleaseIT(String idPolarion) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -329,7 +438,7 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static ProgettoSviluppo readProgettoSviluppo(String idPolarion) {
+	public static ProgettoSviluppo readProgettoSviluppo(String idPolarion) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -358,7 +467,7 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static Mev readMev(String idPolarion) {
+	public static Mev readMev(String idPolarion) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -387,7 +496,7 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static Documento readDocument(String idPolarion) {
+	public static Documento readDocument(String idPolarion) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -416,7 +525,7 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static Support readRichiestaDiSupporto(String idPolarion) {
+	public static Support readRichiestaDiSupporto(String idPolarion) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -445,7 +554,7 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static Defect readDefect(String idPolarion) {
+	public static Defect readDefect(String idPolarion) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -474,7 +583,7 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static Anomalia readAnomalia(String idPolarion) {
+	public static Anomalia readAnomalia(String idPolarion) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -503,7 +612,7 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static Taskit readTaskIT(String idPolarion) {
+	public static Taskit readTaskIT(String idPolarion) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -532,7 +641,7 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static Resolution readResolution(String polarionName) {
+	public static Resolution readResolution(String polarionName) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -561,7 +670,7 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static Testcase readTestCase(String idPolarion) {
+	public static Testcase readTestCase(String idPolarion) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -590,7 +699,7 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static Checklist readCheckList(String idPolarion) {
+	public static Checklist readCheckList(String idPolarion) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -619,7 +728,7 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static Esito readEsito(String nome) {
+	public static Esito readEsito(String nome) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -648,7 +757,7 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static TipoItem readTipoItem(String nome) {
+	public static TipoItem readTipoItem(String nome) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -677,8 +786,7 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static Workrecords readWorkRecord(String typeLink, String idPolarion, User user,
-			Date dataUpdate) {
+	public static Workrecords readWorkRecord(String typeLink, String idPolarion, User user, Date dataUpdate) {
 		if (typeLink == null || idPolarion == null || user == null || dataUpdate == null)
 			return null;
 
@@ -713,7 +821,7 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static LinkedItem readLinkedItem(LinkedItemId lIId) {
+	public static LinkedItem readLinkedItem(LinkedItemId lIId) {
 		try {
 			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 			if (!session.getTransaction().isActive())
@@ -732,8 +840,9 @@ public class HibernateUtil {
 		return null;
 	}
 
-	public synchronized static ReleaseHistory readReleaseHistory(Release release, Status status, Date dataUpdate,
-			User user) {
+	public static ReleaseHistory readReleaseHistory(Release release, Status status, Date dataUpdate, User user) {
+		if (release == null)
+			return null;
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -785,8 +894,10 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static ReleaseitHistory readReleaseItHistory(ReleaseIt release, Status status, Date dataUpdate,
-			User user) {
+	public static ReleaseitHistory readReleaseItHistory(ReleaseIt release, Status status, Date dataUpdate, User user) {
+		if (release == null)
+			return null;
+
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
@@ -838,7 +949,45 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static SupportHistory readRichiestaDiSupportoHistory(Support richiestaDiSupporto, Status status,
+	public static TaskItHistory readTaskITHistory(Taskit taskit, Status status, Date dataUpdate, User user) {
+		if (taskit == null || user == null || dataUpdate == null)
+			return null;
+
+		Session session = getSessionFactory().getCurrentSession();
+		if (!session.getTransaction().isActive())
+			session.beginTransaction();
+
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<TaskItHistory> cq = builder.createQuery(TaskItHistory.class);
+		Root<TaskItHistory> root = cq.from(TaskItHistory.class);
+
+		// Query
+		if (status != null)
+			cq.select(root).where(builder.and(builder.equal(root.get("taskit"), taskit),
+					builder.equal(root.get("status"), status), builder.equal(root.get("dataUpdate"), dataUpdate),
+					builder.equal(root.get("user"), user.getId())));
+		else
+			cq.select(root).where(builder.and(builder.equal(root.get("taskit"), taskit),
+					builder.equal(root.get("dataUpdate"), dataUpdate), builder.equal(root.get("user"), user.getId())));
+
+		Query<TaskItHistory> q = session.createQuery(cq);
+		TaskItHistory s = null;
+
+		try {
+			s = q.getSingleResult();
+		} catch (NoResultException ex) {
+			s = null;
+		} catch (NonUniqueResultException e) {
+			if (Util.DEBUG)
+				Util.writeLog("HibernateUtil.java throws exception", e);
+			Logger.getLogger(HibernateUtil.class.getName()).log(Level.SEVERE, "HibernateUtil.java throws exception", e);
+			s = q.getResultList().get(0);
+		}
+		session.getTransaction().commit();
+		return s;
+	}
+
+	public static SupportHistory readRichiestaDiSupportoHistory(Support richiestaDiSupporto, Status status,
 			Date dataUpdate) {
 		Session session = getSessionFactory().getCurrentSession();
 		if (!session.getTransaction().isActive())
@@ -876,7 +1025,7 @@ public class HibernateUtil {
 		return s;
 	}
 
-	public synchronized static ChecklistTestcase readCheckListTestCase(Checklist checkList, Testcase tc, User user,
+	public static ChecklistTestcase readCheckListTestCase(Checklist checkList, Testcase tc, User user,
 			Date dataUpdate) {
 		if (checkList == null || tc == null || user == null || dataUpdate == null)
 			return null;
@@ -891,7 +1040,7 @@ public class HibernateUtil {
 		// Query
 		cq.select(root)
 				.where(builder.and(builder.equal(root.get("checklist"), checkList),
-						builder.equal(root.get("testcase"), tc), builder.equal(root.get("dataUpdate"), dataUpdate),
+						builder.equal(root.get("testcase"), tc), builder.equal(root.get("dataEsecuzione"), dataUpdate),
 						builder.equal(root.get("user"), user)));
 
 		Query<ChecklistTestcase> q = session.createQuery(cq);
@@ -917,7 +1066,7 @@ public class HibernateUtil {
 	 * 
 	 */
 
-	public synchronized static <T> boolean update(Class<T> clazz, Serializable entity) {
+	public static <T> boolean update(Class<T> clazz, Serializable entity) {
 		if (entity == null || clazz == null || !clazz.isInstance(entity))
 			return false;
 		try {
@@ -938,7 +1087,7 @@ public class HibernateUtil {
 		return false;
 	}
 
-	public synchronized static <T> T loadObject(Class<T> clazz, Serializable key) {
+	public static <T> T loadObject(Class<T> clazz, Serializable key) {
 		T dbObject = null;
 		try {
 			Session session = getSessionFactory().getCurrentSession();
@@ -954,7 +1103,7 @@ public class HibernateUtil {
 		return dbObject;
 	}
 
-	public synchronized static boolean save(Object o) {
+	public static boolean save(Object o) {
 		try {
 			if (!(o instanceof Serializable)) {
 				ClassNotFoundException ex = new ClassNotFoundException("Object o is not instance of Serializable");
@@ -978,7 +1127,7 @@ public class HibernateUtil {
 		}
 	}
 
-	public synchronized static boolean rawQuery(String query) {
+	public static boolean rawQuery(String query) {
 		try {
 			Session session = getSessionFactory().getCurrentSession();
 			if (!session.getTransaction().isActive())

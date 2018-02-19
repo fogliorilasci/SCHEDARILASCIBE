@@ -24,6 +24,10 @@ import javax.persistence.TemporalType;
 @Table(name = "mev", catalog = "rilasci_db")
 public class Mev implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Priority priority;
 	private Severity severity;
@@ -99,7 +103,7 @@ public class Mev implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "cod_author", nullable = false)
+	@JoinColumn(name = "cod_author")
 	public User getUser() {
 		return this.user;
 	}
@@ -108,7 +112,7 @@ public class Mev implements java.io.Serializable {
 		this.user = user;
 	}
 
-	@Column(name = "id_polarion", nullable = false, length = 45)
+	@Column(name = "id_polarion", nullable = false, length = 255)
 	public String getIdPolarion() {
 		return this.idPolarion;
 	}

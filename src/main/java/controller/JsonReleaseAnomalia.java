@@ -5,15 +5,12 @@ import java.util.List;
 import org.json.simple.JSONArray;
 
 import entities.Anomalia;
-import entities.Defect;
-import entities.ReleaseIt;
 
 public class JsonReleaseAnomalia {
 
 	public static JSONArray getReleaseDefectInfo(String param){
 
 		JSONArray objArray = new JSONArray();
-
 
 		int sevCritica = 0;
 		int sevAlta = 0;

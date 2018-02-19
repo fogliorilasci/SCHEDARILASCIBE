@@ -21,6 +21,10 @@ import javax.persistence.TemporalType;
 @Table(name = "anomalia_history", catalog = "rilasci_db")
 public class AnomaliaHistory implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private Anomalia anomalia;
 	private Status status;

@@ -18,6 +18,10 @@ import javax.persistence.Table;
 @Table(name = "assignee", catalog = "rilasci_db")
 public class Assignee implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private AssigneeId id;
 	private Mev releaseIt;
 	private User user;

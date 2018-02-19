@@ -19,6 +19,10 @@ import javax.persistence.Table;
 @Table(name = "project", catalog = "rilasci_db")
 public class Project implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String nome;
 	private Set<Release> releases = new HashSet<Release>(0);

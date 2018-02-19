@@ -21,6 +21,10 @@ import javax.persistence.TemporalType;
 @Table(name = "workrecords", catalog = "rilasci_db")
 public class Workrecords implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private User user;
 	private String typeLink;
@@ -75,7 +79,7 @@ public class Workrecords implements java.io.Serializable {
 		this.typeLink = typeLink;
 	}
 
-	@Column(name = "id_polarion", length = 45)
+	@Column(name = "id_polarion", length = 255)
 	public String getIdPolarion() {
 		return this.idPolarion;
 	}
