@@ -43,10 +43,12 @@ import controller.CalculateTime;
 import controller.JsonReleaseAnomalia;
 import controller.JsonReleaseDefect;
 import controller.JsonReleaseDocumenti;
+import controller.JsonReleaseITGeneralInfo;
 import controller.JsonReleaseInfoGeneral;
 import controller.JsonReleaseMev;
 import controller.JsonReleaseProgettoSviluppo;
 import controller.JsonReleaseStatus;
+import controller.QueryReleaseIT;
 import entities.Csv;
 import entities.Release;
 import entities.ReleaseHistory;
@@ -519,13 +521,38 @@ public class ServicesGet {
 		obj.put("infoDefect", JsonReleaseDefect.getReleaseDefectInfo(param));
 		obj.put("infoDocumenti", JsonReleaseDocumenti.getReleaseDocumentiInfo(param));
 		if(JsonReleaseStatus.getReleaseStatusInfo(param) != null){
-		obj.put("infoStatus", JsonReleaseStatus.getReleaseStatusInfo(param));
+			obj.put("infoStatus", JsonReleaseStatus.getReleaseStatusInfo(param));
 		}
-		
+
 		System.out.println("-----------JSON-----------");
 		System.out.println(obj);
 		System.out.println("--------------------------");
-		
+
+		return obj;
+	}
+
+	@GET
+	@Path("/infoReleaseIT")
+	@Produces("application/json")
+	public JSONObject getInfoReleaseIt(@QueryParam("idPolarion") String idPolarion) {
+
+		List<ReleaseIt> result = QueryReleaseIT.getInfoReleaseITByIDPolarion(idPolarion);
+		JSONObject obj = new JSONObject();
+		obj.put("numRows", result.size());
+		obj.put("general", JsonReleaseITGeneralInfo.getReleaseGeneralInfo(idPolarion));
+		if (result.size() == 1) {
+			obj.put("status", JsonReleaseITGeneralInfo.getReleaseITStatus(idPolarion));
+			obj.put("task", JsonReleaseITGeneralInfo.getTaskIt(idPolarion));
+			obj.put("testcase", JsonReleaseITGeneralInfo.getTestCaseByReleaseIT(idPolarion));
+			obj.put("timing", JsonReleaseITGeneralInfo.getTimingByReleaseIT(idPolarion));
+			obj.put("authors", JsonReleaseITGeneralInfo.getAuthorsByReleaseIT(idPolarion));
+			obj.put("cl", JsonReleaseITGeneralInfo.getCheckListByReleaseIT(idPolarion));
+		}
+
+		System.out.println("-----------JSON-----------");
+		System.out.println(obj);
+		System.out.println("--------------------------");
+
 		return obj;
 	}
 

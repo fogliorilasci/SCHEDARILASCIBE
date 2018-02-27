@@ -52,7 +52,6 @@ entities\Anomalia.class
 controller\JsonReleaseDefect.class
 basic\Scheduler.class
 controller\JsonReleaseProgettoSviluppo.class
-basic\Scheduler$3.class
 entities\AnomaliaHistory.class
 servlets\ServiceProva.class
 basic\HibernateUtil.class

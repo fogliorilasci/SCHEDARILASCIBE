@@ -49,7 +49,7 @@ public class QueryReleaseIT {
 		Root<ReleaseIt> root = cq.from(ReleaseIt.class);
 
 		// Query
-		if (param.contains("-"))
+		if ((param.length() - param.replace("-", "").length()) == 1)
 			cq.select(root).where(builder.like(root.get("idPolarion"), "%" + param + "%"));
 		else
 			cq.select(root).where(builder.equal(root.get("idPolarion"), param));

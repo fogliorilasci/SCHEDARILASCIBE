@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Util {
-	public static boolean DEBUG = true;
+	public static boolean DEBUG = false;
 	private static final long MAX_LOG_SIZE = 2 * 1024 * 1024; // 2MB
 	private static int logCounter = 0;
 
