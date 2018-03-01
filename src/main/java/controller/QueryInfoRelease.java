@@ -35,6 +35,18 @@ public class QueryInfoRelease {
 	public QueryInfoRelease() {
 
 	}
+	
+	public static Object getCountRows(String value) {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		if (!session.getTransaction().isActive())
+			session.beginTransaction();
+		TypedQuery query = session
+				.createQuery("SELECT COUNT(*) FROM Release WHERE id_polarion like '%" + value + "%' ");
+		Object o = query.getSingleResult();
+		session.getTransaction().commit();
+		return o;
+	}
 
 	public static Object getCountFromTable(String table, String column, String value) {
 

@@ -509,19 +509,20 @@ public class ServicesGet {
 		return Response.status(Response.Status.BAD_REQUEST).entity(jsonObject.toString()).build();
 	}
 
-	@POST
+	@GET
 	@Path("/infoReleaseProgetto")
 	@Produces("application/json")
-	public JSONObject getInfoReleaseProgetto(@QueryParam("param") String param) {
+	public JSONObject getInfoReleaseProgetto(@QueryParam("idPolarion") String idPolarion) {
 
-		JSONObject obj = JsonReleaseInfoGeneral.getReleaseGeneralInfo(param);
-		obj.put("infoMev", JsonReleaseMev.getReleaseMevInfo(param));
-		obj.put("infoProgettoSviluppo", JsonReleaseProgettoSviluppo.getReleaseProgettoSviluppoInfo(param));
-		obj.put("infoAnomalia", JsonReleaseAnomalia.getReleaseDefectInfo(param));
-		obj.put("infoDefect", JsonReleaseDefect.getReleaseDefectInfo(param));
-		obj.put("infoDocumenti", JsonReleaseDocumenti.getReleaseDocumentiInfo(param));
-		if(JsonReleaseStatus.getReleaseStatusInfo(param) != null){
-			obj.put("infoStatus", JsonReleaseStatus.getReleaseStatusInfo(param));
+		JSONObject obj = JsonReleaseInfoGeneral.getReleaseGeneralInfo(idPolarion);
+		obj.put("infoMev", JsonReleaseMev.getReleaseMevInfo(idPolarion));
+		obj.put("infoProgettoSviluppo", JsonReleaseProgettoSviluppo.getReleaseProgettoSviluppoInfo(idPolarion));
+		obj.put("infoAnomalia", JsonReleaseAnomalia.getReleaseDefectInfo(idPolarion));
+		obj.put("infoDefect", JsonReleaseDefect.getReleaseDefectInfo(idPolarion));
+		obj.put("infoDocumenti", JsonReleaseDocumenti.getReleaseDocumentiInfo(idPolarion));
+		obj.put("infoStati", JsonReleaseStatus.getReleaseStatusInfo(idPolarion));
+		if(JsonReleaseStatus.getReleaseStatusInfo(idPolarion) != null){
+			obj.put("infoStatus", JsonReleaseStatus.getReleaseStatusInfo(idPolarion));
 		}
 
 		System.out.println("-----------JSON-----------");

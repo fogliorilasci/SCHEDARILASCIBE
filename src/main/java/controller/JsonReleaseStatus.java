@@ -18,9 +18,11 @@ public class JsonReleaseStatus {
 
 	public static JSONArray getReleaseStatusInfo(String param){
 
-		List<ReleaseIt> result = QueryReleaseIT.getInfoReleaseITByIDPolarion(param);
+		Object result = QueryInfoRelease.getCountRows(param);
+		
+		String resultInteger = String.valueOf(result);
 
-		if (result.size() == 1) {
+		if (resultInteger.equals("1")) {
 			JSONObject obj = new JSONObject();
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 			Map<Object, Object> map = new LinkedHashMap<Object, Object>();
@@ -62,7 +64,8 @@ public class JsonReleaseStatus {
 
 			return objArray;
 		}
-
-		return null;
+		else{
+			return null;
+		}
 	}
 }
