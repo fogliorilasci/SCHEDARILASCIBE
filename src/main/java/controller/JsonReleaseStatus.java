@@ -1,9 +1,10 @@
 package controller;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,7 +17,9 @@ import entities.ReleaseIt;
 
 public class JsonReleaseStatus {
 
-	public static JSONArray getReleaseStatusInfo(String param){
+	private static SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+	
+	public static JSONArray getReleaseStatusInfo(String param) throws ParseException{
 
 		Object result = QueryInfoRelease.getCountRows(param);
 		
@@ -56,8 +59,8 @@ public class JsonReleaseStatus {
 
 			for(int i = 1; i<listStatusDate.size(); i++){
 				objArray.add(columnIndex++, listStatusDate.get(i)[0]);
-				objArray.add(columnIndex++, listStatusDate.get(i-1)[1]);
-				objArray.add(columnIndex++, listStatusDate.get(i)[1]);
+				objArray.add(columnIndex++, sdf2.format(new Date(((Timestamp)listStatusDate.get(i-1)[1]).getTime())));
+				objArray.add(columnIndex++, sdf2.format(new Date(((Timestamp)listStatusDate.get(i)[1]).getTime())));
 				objArray.add(columnIndex++, differenceTime.get(i));
 				objArray.add(columnIndex++, differenceTimeWorking.get(i));
 			}

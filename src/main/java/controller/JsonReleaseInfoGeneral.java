@@ -15,12 +15,17 @@ import org.json.simple.JSONObject;
 import entities.Release;
 
 public class JsonReleaseInfoGeneral {
+	
+	private static int size = 0;
 
-	public static JSONObject getReleaseGeneralInfo(String param) {
+	public static JSONArray getReleaseGeneralInfo(String param) {
 		JSONObject obj = new JSONObject();
+		JSONArray objArray = new JSONArray();
 		List<Release> result = QueryInfoRelease.getInfoReleaseByIDPolarion(param);
-		obj.put("numRows", result.size());
-
+		
+		size = result.size();
+		setSize(size);
+		
 		// obj.put("numRows", result.get(0));
 		// obj.put("countDoc", UtilityInfoRelease.getCountFromTable("Testcase",
 		// "cod_status", "13"));
@@ -66,14 +71,13 @@ public class JsonReleaseInfoGeneral {
 		String sigla = null;
 		String area = null;
 		if(param.contains("-")){
-			sigla = param.substring(0, param.indexOf("-"));
+			sigla = param.substring(0, param.indexOf("-")).toUpperCase();
 			area = areeApplicativi.get(sigla);
 		}
 		else area = areeApplicativi.get(sigla);
 
 		for (Release r : result) {
 			if (result.size() == 1) {
-				JSONArray objArray = new JSONArray();
 				int columnIndex = 0;
 				objArray.add(columnIndex++, param);
 				if (r.getProject() != null) {
@@ -88,10 +92,15 @@ public class JsonReleaseInfoGeneral {
 				objArray.add(columnIndex++, r.getLink());
 				objArray.add(columnIndex++, r.getRepository());
 				objArray.add(columnIndex++, area);
-				obj.put("infoGenerali", objArray);
+				
+				objArray.add(columnIndex++, JsonReleaseProgettoSviluppo.getTotaleProgettoSviluppo());
+				objArray.add(columnIndex++, JsonReleaseAnomalia.getTotaleAnomalie());
+				objArray.add(columnIndex++, JsonReleaseDefect.getTotaleDefect());		
+				objArray.add(columnIndex++, JsonReleaseDocumenti.getTotaleDocumenti());
+				
+//				obj.put("infoGenerali", objArray);
 			}
 			else{
-				JSONArray objArray = new JSONArray();
 				int columnIndex = 0;
 
 				totDocumenti += (Long) QueryInfoRelease.getCountFromLinkedItemInnerJoinATable(r.getIdPolarion(), "Documento");
@@ -107,12 +116,21 @@ public class JsonReleaseInfoGeneral {
 				objArray.add(columnIndex++, (Object) totProgettoSviluppo);
 				objArray.add(columnIndex++, (Object) totSupporto);
 				objArray.add(columnIndex++, (Object) totMev);
-				obj.put("infoGenerali", objArray);
+//				obj.put("infoGenerali", objArray);
 			}
 
 		}
-		return obj;
+		return objArray;
 	}
+
+	public static int getSize() {
+		return size;
+	}
+
+	public static void setSize(int size) {
+		JsonReleaseInfoGeneral.size = size;
+	}
+
 
 	//	public static String getCodArea(String codProdotto) {
 	//

@@ -407,5 +407,71 @@ public class QueryInfoRelease {
 		session.getTransaction().commit();
 		return result;
 	}
+	
+	// FILTRI RELEASE
+	public static List<Release> getReleaseFromFiltri(String area, String contesto, String project) {
+
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		if (!session.getTransaction().isActive())
+			session.beginTransaction();
+
+		String query = null;
+		if(!area.isEmpty() && !project.isEmpty()){
+			query = "select * from rilasci_db.release r inner join rilasci_db.project p where p.nome = '"+project+"' and repository = '"+contesto+"' and id_polarion like '%"+area+"%'";
+		}
+		else if(area.isEmpty()){
+			query = "select * from rilasci_db.release r inner join rilasci_db.project p where p.nome = '"+project+"' and repository = '"+contesto+"'";
+		}
+		else if(project.isEmpty()){
+			query = "select * from rilasci_db.release r where repository = '"+contesto+"' and id_polarion like '%"+area+"%'";
+		}
+		else{
+			query = "select * from rilasci_db.release r where repository = '"+contesto+"'";
+		}
+
+		@SuppressWarnings("unchecked")
+		Query<Release> q = session.createNativeQuery(query, Release.class);
+
+		List<Release> result = q.getResultList();
+
+		session.getTransaction().commit();
+		return result;
+	}
+	
+	public static List<Release> getReleaseFromApplicativo(String applicativo){
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		if (!session.getTransaction().isActive())
+			session.beginTransaction();
+
+		int count = applicativo.length() - applicativo.replace(".", "").length();
+		if(count == 2) applicativo = applicativo.substring(0, applicativo.lastIndexOf("."));
+		
+		String query = "select * from rilasci_db.release where id_polarion like '%"+applicativo+"%';";
+		
+		@SuppressWarnings("unchecked")
+		Query<Release> q = session.createNativeQuery(query, Release.class);
+
+		List<Release> result = q.getResultList();
+
+		session.getTransaction().commit();
+		return result;
+	}
+
+	public static List<Release> getReleaseFromContesto(String contesto) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		if (!session.getTransaction().isActive())
+			session.beginTransaction();
+
+		String query = "select * from rilasci_db.release where repository = '"+contesto+"';";
+		
+		@SuppressWarnings("unchecked")
+		Query<Release> q = session.createNativeQuery(query, Release.class);
+
+		List<Release> result = q.getResultList();
+
+		session.getTransaction().commit();
+		return result;
+	}
 
 }

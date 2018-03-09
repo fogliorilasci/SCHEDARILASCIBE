@@ -297,7 +297,7 @@ public class JsonReleaseITGeneralInfo {
 				objArrayTest.add(columnIndexTest++, tItH.getUser().getIdPolarion());
 				lastDateTest = tItH.getDataUpdate();
 				break;
-			case "contrdoc":
+			case "cm":
 				objArrayContrDoc.add(columnIndexContrDoc++, tItH.getStatus().getPolarionName());
 				if (lastDateContrDoc == null) {
 					objArrayContrDoc.add(columnIndexContrDoc++, sdf.format(tItH.getTaskit().getDataCreazione()));
@@ -369,11 +369,11 @@ public class JsonReleaseITGeneralInfo {
 		if (usersTypes.getString("tester").contains(idPolarionUser))
 			return "test";
 		if (usersTypes.getString("cm").contains(idPolarionUser))
-			return "contrdoc";
+			return "cm";
 		if (usersTypes.getString("dataprep").contains(idPolarionUser))
 			return "dataprep";
 
-		return null;
+		return "";
 	}
 
 	/**

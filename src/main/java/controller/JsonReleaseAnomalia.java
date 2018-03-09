@@ -7,6 +7,8 @@ import org.json.simple.JSONArray;
 import entities.Anomalia;
 
 public class JsonReleaseAnomalia {
+	
+	private static int totaleAnomalie = 0;
 
 	public static JSONArray getReleaseDefectInfo(String param){
 
@@ -45,6 +47,9 @@ public class JsonReleaseAnomalia {
 			else prioMedium++;
 
 		}
+		
+		totaleAnomalie = allAnomalia.size();
+		setTotaleAnomalie(totaleAnomalie);
 
 		// objArray : [sevCritica, sevAlta, sevMedia, sevBassa, prioHighest, prioHigh, prioMedium, prioLow, prioLowest]
 		int columnIndex = 0;
@@ -59,6 +64,14 @@ public class JsonReleaseAnomalia {
 		objArray.add(columnIndex++, prioLowest);
 
 		return objArray;
+	}
+
+	public static int getTotaleAnomalie() {
+		return totaleAnomalie;
+	}
+
+	public static void setTotaleAnomalie(int totaleAnomalie) {
+		JsonReleaseAnomalia.totaleAnomalie = totaleAnomalie;
 	}
 
 }

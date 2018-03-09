@@ -14,12 +14,16 @@ import entities.ReleaseHistory;
 import entities.ReleaseIt;
 
 public class JsonReleaseDefect {
+	
+	private static int totaleDefect = 0;
 
 	public static JSONArray getReleaseDefectInfo(String param){
 
 		JSONArray objArray = new JSONArray();
 
-		List<ReleaseIt> result = QueryReleaseIT.getInfoReleaseITByIDPolarion(param);
+		Object result = QueryInfoRelease.getCountRows(param);
+		
+		String resultInteger = String.valueOf(result);
 
 		int sevCritica = 0;
 		int sevAlta = 0;
@@ -191,7 +195,7 @@ public class JsonReleaseDefect {
 		//
 		// Se size = 1
 		// objArray : [sevCritica, sevAlta, sevMedia, sevBassa, prioHighest, prioHigh, prioMedium, prioLow, prioLowest, limitiNoti, risoltiInIt, riaperti, invalidi, tester, deploy, dba, cm]
-		if (result.size() == 1) {
+		if (resultInteger.equals("1")) {
 			int columnIndex = 0;
 			objArray.add(columnIndex++, sevCritica);
 			objArray.add(columnIndex++, sevAlta);
@@ -228,7 +232,19 @@ public class JsonReleaseDefect {
 			objArray.add(columnIndex++, dba);
 			objArray.add(columnIndex++, cm);
 		}
+		
+		totaleDefect = allDefect.size();
+		setTotaleDefect(totaleDefect);
+		
 		return objArray;
+	}
+	
+	public static int getTotaleDefect() {
+		return totaleDefect;
+	}
+
+	public static void setTotaleDefect(int totaleDefect) {
+		JsonReleaseDefect.totaleDefect = totaleDefect;
 	}
 
 }
