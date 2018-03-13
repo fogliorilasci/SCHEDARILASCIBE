@@ -18,6 +18,7 @@ import org.hibernate.query.Query;
 import basic.HibernateUtil;
 import basic.Util;
 import entities.Checklist;
+import entities.Defect;
 import entities.Release;
 import entities.ReleaseHistory;
 import entities.ReleaseIt;
@@ -225,7 +226,8 @@ public class QueryReleaseIT {
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
 
-		String query = "SELECT * FROM releaseit_history WHERE cod_releaseit = '" + r.getId() + "'";
+		String query = "SELECT * FROM releaseit_history WHERE cod_releaseit = '" + r.getId()
+				+ "' AND cod_status IS NOT NULL";
 		if (status != null)
 			query += " AND cod_status=" + status.getId();
 
@@ -687,7 +689,7 @@ public class QueryReleaseIT {
 
 		return result;
 	}
-	
+
 	public static Integer getTestcaseCountByChecklist(Checklist cl) {
 		if (cl == null) {
 			NullPointerException npe = new NullPointerException();
@@ -702,13 +704,39 @@ public class QueryReleaseIT {
 		if (!session.getTransaction().isActive())
 			session.beginTransaction();
 
-		String query = "SELECT count(*) FROM checklist_testcase WHERE '" + cl.getId()
-				+ "' = cod_checlist";
+		String query = "SELECT count(*) FROM checklist_testcase WHERE '" + cl.getId() + "' = cod_checlist";
 
 		@SuppressWarnings("unchecked")
 		Query<BigInteger> q = session.createNativeQuery(query);
 
 		Integer result = q.getSingleResult().intValue();
+
+		session.getTransaction().commit();
+
+		return result;
+	}
+
+	public static List<Defect> getDefectByTestcase(String idPolarion) {
+		if (idPolarion == null) {
+			NullPointerException npe = new NullPointerException();
+			if (Util.DEBUG)
+				Util.writeLog("QueryReleaseIT.java throws exception", npe);
+			Logger.getLogger(QueryReleaseIT.class.getName()).log(Level.SEVERE, "QueryReleaseIT.java throws exception",
+					npe);
+			return null;
+		}
+
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		if (!session.getTransaction().isActive())
+			session.beginTransaction();
+
+		String query = "SELECT d.* FROM linked_item AS li_tc_d INNER JOIN defect d"
+				+ " WHERE	li_tc_d.id_polarion_padre = '" + idPolarion
+				+ "' AND li_tc_d.id_polarion_figlio = d.id_polarion GROUP BY d.id_polarion ORDER BY d.data_creazione ASC";
+
+		Query<Defect> q = session.createNativeQuery(query, Defect.class);
+
+		List<Defect> result = q.getResultList();
 
 		session.getTransaction().commit();
 

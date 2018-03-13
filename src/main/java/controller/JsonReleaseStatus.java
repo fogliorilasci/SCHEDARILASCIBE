@@ -13,7 +13,9 @@ import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import entities.ReleaseHistory;
 import entities.ReleaseIt;
+import entities.ReleaseitHistory;
 
 public class JsonReleaseStatus {
 
@@ -70,5 +72,46 @@ public class JsonReleaseStatus {
 		else{
 			return null;
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static JSONArray getReleaseStatus(String param) {
+		if (param == null)
+			return null;
+
+		JSONArray objArray = new JSONArray();
+		int columnIndex = 0;
+
+		List<ReleaseHistory> releaseHistoryList = QueryInfoRelease.getAllReleaseStatus(param, null);
+		String lastDate = null;
+		boolean isFirstHistory = true;
+		for (int i = 0; i < releaseHistoryList.size(); i++) {
+			ReleaseHistory rh = releaseHistoryList.get(i);
+			
+			if (i + 1 < releaseHistoryList.size() && releaseHistoryList.get(i + 1).getStatus().equals(rh.getStatus()))
+				continue;
+			objArray.add(columnIndex++, rh.getStatus().getPolarionName());
+			
+			if (isFirstHistory) {
+				lastDate = sdf2.format(rh.getDataUpdate());
+				objArray.add(columnIndex++, sdf2.format(rh.getRelease().getDataCreazione()));
+				objArray.add(columnIndex++, lastDate);
+				objArray.add(columnIndex++, CalculateTime.getTimeInDayHourMin(
+						rh.getDataUpdate().getTime() - rh.getRelease().getDataCreazione().getTime()));
+				objArray.add(columnIndex++,
+						CalculateTime.getTotalTimeWorking(rh.getRelease().getDataCreazione(), rh.getDataUpdate()));
+				isFirstHistory = false;
+			} else {
+				objArray.add(columnIndex++, lastDate);
+				lastDate = sdf2.format(rh.getDataUpdate());
+				objArray.add(columnIndex++, lastDate);
+				objArray.add(columnIndex++, CalculateTime.getTimeInDayHourMin(
+						rh.getDataUpdate().getTime() - releaseHistoryList.get(i - 1).getDataUpdate().getTime()));
+				objArray.add(columnIndex++, CalculateTime
+						.getTotalTimeWorking(releaseHistoryList.get(i - 1).getDataUpdate(), rh.getDataUpdate()));
+			}
+		}
+		return objArray;
+
 	}
 }

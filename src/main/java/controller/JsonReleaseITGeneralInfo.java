@@ -16,11 +16,13 @@ import org.json.simple.JSONObject;
 import basic.HibernateUtil;
 import basic.Util;
 import entities.Checklist;
+import entities.Defect;
 import entities.ReleaseHistory;
 import entities.ReleaseIt;
 import entities.ReleaseitHistory;
 import entities.TaskItHistory;
 import entities.Taskit;
+import entities.Testcase;
 import entities.User;
 import entities.Workrecords;
 
@@ -37,7 +39,7 @@ public class JsonReleaseITGeneralInfo {
 	 * @return JSONObject
 	 */
 	@SuppressWarnings("unchecked")
-	public static JSONObject getReleaseGeneralInfo(String param) {
+	public static JSONObject getReleaseITGeneralInfo(String param) {
 		if (param == null)
 			return null;
 
@@ -89,6 +91,23 @@ public class JsonReleaseITGeneralInfo {
 				List<ReleaseHistory> listRH = QueryReleaseIT.getAllRelaseStatusByRelaseIT(r.getIdPolarion(), null);
 				objArray.add(columnIndex++,
 						CalculateTime.getTimeInDayHourMin(getTimeInAStatusOfRelease(listRH, "quickfix")));
+
+				totDocumenti = QueryReleaseIT.getCountFromLinkedItemInnerJoinATable(r.getIdPolarion(), "documento");
+				totDefect = QueryReleaseIT.getCountFromLinkedItemInnerJoinATable(r.getIdPolarion(), "defect");
+				totAnomalie = QueryReleaseIT.getCountFromLinkedItemInnerJoinATable(r.getIdPolarion(), "anomalia");
+				totProgettoSviluppo += (Long) QueryReleaseIT.getCountFromLinkedItemInnerJoinATable(r.getIdPolarion(),
+						"progetto_sviluppo");
+				totSupporto += (Long) QueryReleaseIT.getCountFromLinkedItemInnerJoinATable(r.getIdPolarion(),
+						"support");
+				totMev += (Long) QueryReleaseIT.getCountFromLinkedItemInnerJoinATable(r.getIdPolarion(), "mev");
+
+				objArray.add(columnIndex++, (Object) totDocumenti);
+				objArray.add(columnIndex++, (Object) totDefect);
+				objArray.add(columnIndex++, (Object) totAnomalie);
+				objArray.add(columnIndex++, (Object) totProgettoSviluppo);
+				objArray.add(columnIndex++, (Object) totSupporto);
+				objArray.add(columnIndex++, (Object) totMev);
+
 				obj.put("infoGenerali", objArray);
 			} else {
 				JSONArray objArray = new JSONArray();
@@ -175,16 +194,18 @@ public class JsonReleaseITGeneralInfo {
 
 		List<ReleaseitHistory> releaseItHistoryList = QueryReleaseIT.getAllReleaseItStatus(param, null);
 		String lastDate = null;
+		boolean isFirstHistory = true;
 		for (int i = 0; i < releaseItHistoryList.size(); i++) {
 			ReleaseitHistory rh = releaseItHistoryList.get(i);
-			if (rh.getStatus() == null)
-				continue;
 
 			if (rh.getStatus().getPolarionName().equals("rifiutato"))
 				numRifiutati++;
+			
+			if (i + 1 < releaseItHistoryList.size() && releaseItHistoryList.get(i + 1).getStatus().equals(rh.getStatus()))
+				continue;
 			objArray.add(columnIndex++, rh.getStatus().getPolarionName());
-
-			if (i == 0) {
+			
+			if (isFirstHistory) {
 				lastDate = sdf.format(rh.getDataUpdate());
 				objArray.add(columnIndex++, sdf.format(rh.getReleaseIt().getDataCreazione()));
 				objArray.add(columnIndex++, lastDate);
@@ -192,21 +213,21 @@ public class JsonReleaseITGeneralInfo {
 						rh.getDataUpdate().getTime() - rh.getReleaseIt().getDataCreazione().getTime()));
 				objArray.add(columnIndex++,
 						CalculateTime.getTotalTimeWorking(rh.getReleaseIt().getDataCreazione(), rh.getDataUpdate()));
-				continue;
+				isFirstHistory = false;
+			} else {
+				objArray.add(columnIndex++, lastDate);
+				lastDate = sdf.format(rh.getDataUpdate());
+				objArray.add(columnIndex++, lastDate);
+				objArray.add(columnIndex++, CalculateTime.getTimeInDayHourMin(
+						rh.getDataUpdate().getTime() - releaseItHistoryList.get(i - 1).getDataUpdate().getTime()));
+				objArray.add(columnIndex++, CalculateTime
+						.getTotalTimeWorking(releaseItHistoryList.get(i - 1).getDataUpdate(), rh.getDataUpdate()));
 			}
-			objArray.add(columnIndex++, lastDate);
-			lastDate = sdf.format(rh.getDataUpdate());
-			objArray.add(columnIndex++, lastDate);
-			objArray.add(columnIndex++, CalculateTime.getTimeInDayHourMin(
-					rh.getDataUpdate().getTime() - releaseItHistoryList.get(i - 1).getDataUpdate().getTime()));
-			objArray.add(columnIndex++, CalculateTime
-					.getTotalTimeWorking(releaseItHistoryList.get(i - 1).getDataUpdate(), rh.getDataUpdate()));
 		}
 		obj.put("stati", objArray);
 		JSONArray objArrayRifiutati = new JSONArray();
 		objArrayRifiutati.add(0, numRifiutati);
 		obj.put("rifiutati", objArrayRifiutati);
-
 		return obj;
 
 	}
@@ -377,8 +398,8 @@ public class JsonReleaseITGeneralInfo {
 	}
 
 	/**
-	 * It counts all Testcase's types of a release IT. Param must be the
-	 * releaseIT's id_polarion.
+	 * It counts all Testcase's types of a release IT and also retrieve defect's
+	 * list for each Testcase. Param must be the releaseIT's id_polarion.
 	 * 
 	 * @param String
 	 *            param
@@ -411,6 +432,17 @@ public class JsonReleaseITGeneralInfo {
 
 		obj.put("testcase", objArray);
 
+		List<Testcase> list = QueryReleaseIT.getTestcaseByReleaseIT(r.getIdPolarion());
+		for (Testcase tc : list) {
+			List<Defect> defectList = QueryReleaseIT.getDefectByTestcase(tc.getIdPolarion());
+			if (defectList.isEmpty())
+				continue;
+			JSONArray objArrayTestcaseDefect = new JSONArray();
+			int index = 0;
+			for (Defect d : defectList)
+				objArrayTestcaseDefect.add(index++, d.getIdPolarion());
+			obj.put(tc.getIdPolarion(), objArrayTestcaseDefect);
+		}
 		return obj;
 	}
 
@@ -437,7 +469,7 @@ public class JsonReleaseITGeneralInfo {
 		if (r.getDataInizio() == null || r.getDataFine() == null)
 			return null;
 
-		 final long hour = 3600 * 1000;
+		final long hour = 3600 * 1000;
 
 		JSONArray objArrayReleaseIt = new JSONArray();
 		objArrayReleaseIt.add(0, sdf.format(r.getDataInizio()));
@@ -549,7 +581,7 @@ public class JsonReleaseITGeneralInfo {
 				time += currentEndDate.getTime() - currentTaskIt.getDataCreazione().getTime();
 				String timeS = Time.numberOfWorkingHoursInPeriod(currentTaskIt.getDataCreazione(), currentEndDate);
 				workingTime += Long.parseLong(timeS.substring(0, timeS.indexOf(":")));
-	
+
 				currentEndDate = null;
 				currentTaskIt = null;
 			}

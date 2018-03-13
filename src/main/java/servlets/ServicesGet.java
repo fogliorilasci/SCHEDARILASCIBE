@@ -522,10 +522,12 @@ public class ServicesGet {
 		obj.put("infoDefect", JsonReleaseDefect.getReleaseDefectInfo(idPolarion));
 		obj.put("infoDocumenti", JsonReleaseDocumenti.getReleaseDocumentiInfo(idPolarion));
 		obj.put("infoGenerali", JsonReleaseInfoGeneral.getReleaseGeneralInfo(idPolarion));
-		obj.put("numRows", JsonReleaseInfoGeneral.getSize());
-		obj.put("infoStati", JsonReleaseStatus.getReleaseStatusInfo(idPolarion));
-		if(JsonReleaseStatus.getReleaseStatusInfo(idPolarion) != null){
-			obj.put("infoStatus", JsonReleaseStatus.getReleaseStatusInfo(idPolarion));
+		
+		int size = JsonReleaseInfoGeneral.getSize();
+		obj.put("numRows", size);
+
+		if(size == 1){
+			obj.put("infoStati", JsonReleaseStatus.getReleaseStatus(idPolarion));
 		}
 
 		System.out.println("-----------JSON-----------");
@@ -543,7 +545,7 @@ public class ServicesGet {
 		List<ReleaseIt> result = QueryReleaseIT.getInfoReleaseITByIDPolarion(idPolarion);
 		JSONObject obj = new JSONObject();
 		obj.put("numRows", result.size());
-		obj.put("general", JsonReleaseITGeneralInfo.getReleaseGeneralInfo(idPolarion));
+		obj.put("general", JsonReleaseITGeneralInfo.getReleaseITGeneralInfo(idPolarion));
 		if (result.size() == 1) {
 			obj.put("status", JsonReleaseITGeneralInfo.getReleaseITStatus(idPolarion));
 			obj.put("task", JsonReleaseITGeneralInfo.getTaskIt(idPolarion));
@@ -574,7 +576,7 @@ public class ServicesGet {
 
 		return obj;
 	}
-	
+
 	@GET
 	@Path("/getRilasciApplicativo")
 	@Produces("application/json")
@@ -589,7 +591,7 @@ public class ServicesGet {
 
 		return obj;
 	}
-	
+
 	@GET
 	@Path("/getRilasciContesto")
 	@Produces("application/json")

@@ -28,12 +28,45 @@ import entities.Defect;
 import entities.DefectHistory;
 import entities.Release;
 import entities.ReleaseHistory;
+import entities.ReleaseIt;
+import entities.ReleaseitHistory;
 import entities.Status;
 
 public class QueryInfoRelease {
 
 	public QueryInfoRelease() {
 
+	}
+	
+	public static List<ReleaseHistory> getAllReleaseStatus(String idPolarionRelease, Status status) {
+		if (idPolarionRelease == null) {
+			NullPointerException npe = new NullPointerException();
+			if (Util.DEBUG)
+				Util.writeLog("QueryInfoRelease.java throws exception", npe);
+			Logger.getLogger(QueryInfoRelease.class.getName()).log(Level.SEVERE, "QueryRelease.java throws exception",
+					npe);
+			return null;
+		}
+
+		Release r = HibernateUtil.readRelease(idPolarionRelease);
+
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		if (!session.getTransaction().isActive())
+			session.beginTransaction();
+
+		String query = "SELECT * FROM release_history WHERE cod_id_release = '" + r.getId()
+				+ "' AND cod_status IS NOT NULL";
+		if (status != null)
+			query += " AND cod_status=" + status.getId();
+
+		query += " ORDER BY data_update ASC";
+
+		Query<ReleaseHistory> q = session.createNativeQuery(query, ReleaseHistory.class);
+
+		List<ReleaseHistory> result = q.getResultList();
+
+		session.getTransaction().commit();
+		return result;
 	}
 	
 	public static Object getCountRows(String value) {
