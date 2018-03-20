@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,8 @@ import org.json.simple.JSONArray;
 import entities.Release;
 
 public class JsonReleaseFiltri {
+	
+	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public static JSONArray getReleaseFiltri(String area, String contesto, String project){
 
@@ -70,6 +73,9 @@ public class JsonReleaseFiltri {
 		for (Release release : releaseFiltri) {
 //			result.add(release.getIdPolarion()+" - "+release.getTitolo());
 			objArray.add(release.getIdPolarion());
+			objArray.add(release.getTitolo());
+			objArray.add(sdf.format(release.getDataCreazione()));
+			objArray.add(sdf.format(release.getDataUpdate()));
 		}
 		
 //		objArray.add(result);
@@ -84,6 +90,9 @@ public class JsonReleaseFiltri {
 		for (Release release : releaseFiltri) {
 //			result.add(release.getIdPolarion()+" - "+release.getTitolo());
 			objArray.add(release.getIdPolarion());
+			objArray.add(release.getTitolo());
+			objArray.add(sdf.format(release.getDataCreazione()));
+			objArray.add(sdf.format(release.getDataUpdate()));
 		}
 		
 //		objArray.add(result);
