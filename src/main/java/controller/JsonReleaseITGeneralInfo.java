@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import com.mysql.cj.x.json.JsonArray;
+
 import basic.HibernateUtil;
 import basic.Util;
 import entities.Checklist;
@@ -247,11 +249,13 @@ public class JsonReleaseITGeneralInfo {
 
 		JSONObject obj = new JSONObject();
 		List<TaskItHistory> taskItHistoryList = QueryReleaseIT.getTastItHistoryByReleaseIT(param);
+		
+		List<String> listIdTask = new ArrayList<String>();
 
 		JSONArray objArrayDeploy = new JSONArray(), objArrayDBA = new JSONArray(), objArrayTest = new JSONArray(),
-				objArrayContrDoc = new JSONArray(), objArrayDataPrep = new JSONArray();
+				objArrayContrDoc = new JSONArray(), objArrayDataPrep = new JSONArray(), objTaskId = new JSONArray();
 		int columnIndexDeploy = 0, columnIndexDBA = 0, columnIndexTest = 0, columnIndexContrDoc = 0,
-				columnIndexDataPrep = 0;
+				columnIndexDataPrep = 0, columnIndexTaskID = 0;
 		Date lastDateDeploy = null, lastDateDBA = null, lastDateTest = null, lastDateContrDoc = null,
 				lastDateDataPrep = null;
 		for (int i = 0; i < taskItHistoryList.size(); i++) {
@@ -266,6 +270,14 @@ public class JsonReleaseITGeneralInfo {
 			switch (getUserType(tItH.getUser().getIdPolarion())) {
 			case "deploy":
 				objArrayDeploy.add(columnIndexDeploy++, tItH.getStatus().getPolarionName());
+				
+				if(!listIdTask.contains(tItH.getTaskit().getIdPolarion())){
+					String titolo = tItH.getTaskit().getTitolo();
+					titolo = titolo.substring(titolo.indexOf("(") + 1, titolo.indexOf(")"));
+					objTaskId.add(columnIndexTaskID++, "ID Task "+titolo+" : "+tItH.getTaskit().getIdPolarion());
+					listIdTask.add(tItH.getTaskit().getIdPolarion());
+				}
+				
 				if (lastDateDeploy == null) {
 					objArrayDeploy.add(columnIndexDeploy++, sdf.format(tItH.getTaskit().getDataCreazione()));
 					lastDateDeploy = tItH.getDataUpdate();
@@ -284,6 +296,14 @@ public class JsonReleaseITGeneralInfo {
 				break;
 			case "dba":
 				objArrayDBA.add(columnIndexDBA++, tItH.getStatus().getPolarionName());
+				
+				if(!listIdTask.contains(tItH.getTaskit().getIdPolarion())){
+					String titolo = tItH.getTaskit().getTitolo();
+					titolo = titolo.substring(titolo.indexOf("(") + 1, titolo.indexOf(")"));
+					objTaskId.add(columnIndexTaskID++, "ID Task "+titolo+" : "+tItH.getTaskit().getIdPolarion());
+					listIdTask.add(tItH.getTaskit().getIdPolarion());
+				}
+				
 				if (lastDateDBA == null) {
 					objArrayDBA.add(columnIndexDBA++, sdf.format(tItH.getTaskit().getDataCreazione()));
 					lastDateDBA = tItH.getDataUpdate();
@@ -302,6 +322,14 @@ public class JsonReleaseITGeneralInfo {
 				break;
 			case "test":
 				objArrayTest.add(columnIndexTest++, tItH.getStatus().getPolarionName());
+				
+				if(!listIdTask.contains(tItH.getTaskit().getIdPolarion())){
+					String titolo = tItH.getTaskit().getTitolo();
+					titolo = titolo.substring(titolo.indexOf("(") + 1, titolo.indexOf(")"));
+					objTaskId.add(columnIndexTaskID++, "ID Task "+titolo+" : "+tItH.getTaskit().getIdPolarion());
+					listIdTask.add(tItH.getTaskit().getIdPolarion());
+				}
+				
 				if (lastDateTest == null) {
 					objArrayTest.add(columnIndexTest++, sdf.format(tItH.getTaskit().getDataCreazione()));
 					lastDateTest = tItH.getDataUpdate();
@@ -320,6 +348,14 @@ public class JsonReleaseITGeneralInfo {
 				break;
 			case "cm":
 				objArrayContrDoc.add(columnIndexContrDoc++, tItH.getStatus().getPolarionName());
+				
+				if(!listIdTask.contains(tItH.getTaskit().getIdPolarion())){
+					String titolo = tItH.getTaskit().getTitolo();
+					titolo = titolo.substring(titolo.indexOf("(") + 1, titolo.indexOf(")"));
+					objTaskId.add(columnIndexTaskID++, "ID Task "+titolo+" : "+tItH.getTaskit().getIdPolarion());
+					listIdTask.add(tItH.getTaskit().getIdPolarion());
+				}
+				
 				if (lastDateContrDoc == null) {
 					objArrayContrDoc.add(columnIndexContrDoc++, sdf.format(tItH.getTaskit().getDataCreazione()));
 					lastDateContrDoc = tItH.getDataUpdate();
@@ -339,6 +375,14 @@ public class JsonReleaseITGeneralInfo {
 				break;
 			case "dataprep":
 				objArrayDataPrep.add(columnIndexDataPrep++, tItH.getStatus().getPolarionName());
+				
+				if(!listIdTask.contains(tItH.getTaskit().getIdPolarion())){
+					String titolo = tItH.getTaskit().getTitolo();
+					titolo = titolo.substring(titolo.indexOf("(") + 1, titolo.indexOf(")"));
+					objTaskId.add(columnIndexTaskID++, "ID Task "+titolo+" : "+tItH.getTaskit().getIdPolarion());
+					listIdTask.add(tItH.getTaskit().getIdPolarion());
+				}
+				
 				if (lastDateDataPrep == null) {
 					objArrayDataPrep.add(columnIndexDataPrep++, sdf.format(tItH.getTaskit().getDataCreazione()));
 					lastDateDataPrep = tItH.getDataUpdate();
@@ -372,6 +416,8 @@ public class JsonReleaseITGeneralInfo {
 		obj.put("infoTaskTest", objArrayTest);
 		obj.put("infoTaskContrDoc", objArrayContrDoc);
 		obj.put("infoTaskDataPrep", objArrayDataPrep);
+		obj.put("infoTaskId", objTaskId);
+		
 		return obj;
 	}
 

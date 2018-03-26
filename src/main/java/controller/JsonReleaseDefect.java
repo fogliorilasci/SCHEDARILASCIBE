@@ -247,4 +247,9 @@ public class JsonReleaseDefect {
 		JsonReleaseDefect.totaleDefect = totaleDefect;
 	}
 
+	public static Object getReleaseDefectInfoTotal(String param) {
+		List<Defect> allDefect = QueryInfoRelease.getDefectFromId(param);
+		return allDefect.size();
+	}
+
 }

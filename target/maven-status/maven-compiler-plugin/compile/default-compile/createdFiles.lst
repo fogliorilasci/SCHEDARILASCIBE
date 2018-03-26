@@ -27,6 +27,7 @@ entities\Task.class
 entities\Severity.class
 basic\Scheduler$2.class
 entities\ReleaseHistory.class
+controller\JsonReleaseFiltri.class
 controller\CalculateTime.class
 controller\QueryInfoRelease.class
 entities\TipoItem.class

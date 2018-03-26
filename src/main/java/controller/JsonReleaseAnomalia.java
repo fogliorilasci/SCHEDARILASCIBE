@@ -74,4 +74,9 @@ public class JsonReleaseAnomalia {
 		JsonReleaseAnomalia.totaleAnomalie = totaleAnomalie;
 	}
 
+	public static Object getReleaseAnomalieInfoTotal(String param) {
+		List<Anomalia> allAnomalia = QueryInfoRelease.getAnomalieFromId(param);
+		return allAnomalia.size();
+	}
+
 }

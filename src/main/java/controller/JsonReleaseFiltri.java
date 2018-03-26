@@ -69,7 +69,6 @@ public class JsonReleaseFiltri {
 		
 		JSONArray objArray = new JSONArray();
 		List<Release> releaseFiltri = QueryInfoRelease.getReleaseFromApplicativo(applicativo);
-		List<String> result = new ArrayList<String>();
 		for (Release release : releaseFiltri) {
 //			result.add(release.getIdPolarion()+" - "+release.getTitolo());
 			objArray.add(release.getIdPolarion());
@@ -98,6 +97,24 @@ public class JsonReleaseFiltri {
 //		objArray.add(result);
 
 		return objArray;
+	}
+	
+	public static JSONArray getRilasciFromArea(String codiceArea){
+		JSONArray objArray = new JSONArray();
+		List<String> aree = getArea(codiceArea);
+		
+		for (String area : aree) {
+			List<Release> releaseFiltri = QueryInfoRelease.getReleaseFromApplicativo(area);
+			for (Release release : releaseFiltri) {
+				objArray.add(release.getIdPolarion());
+				objArray.add(release.getTitolo());
+				objArray.add(sdf.format(release.getDataCreazione()));
+				objArray.add(sdf.format(release.getDataUpdate()));
+			}
+		}
+		
+		return objArray;
+		
 	}
 
 }

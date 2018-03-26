@@ -522,7 +522,8 @@ public class ServicesGet {
 		obj.put("infoDefect", JsonReleaseDefect.getReleaseDefectInfo(idPolarion));
 		obj.put("infoDocumenti", JsonReleaseDocumenti.getReleaseDocumentiInfo(idPolarion));
 		obj.put("infoGenerali", JsonReleaseInfoGeneral.getReleaseGeneralInfo(idPolarion));
-		
+		obj.put("infoTotDefect", JsonReleaseDefect.getReleaseDefectInfoTotal(idPolarion));
+		obj.put("infoTotAnomalie", JsonReleaseAnomalia.getReleaseAnomalieInfoTotal(idPolarion));
 		int size = JsonReleaseInfoGeneral.getSize();
 		obj.put("numRows", size);
 
@@ -599,6 +600,21 @@ public class ServicesGet {
 
 		JSONObject obj = new JSONObject();
 		obj.put("rilasciContesto", JsonReleaseFiltri.getRilasciContesto(contesto));
+
+		System.out.println("-----------JSON-----------");
+		System.out.println(obj);
+		System.out.println("--------------------------");
+
+		return obj;
+	}
+	
+	@GET
+	@Path("/getRilasciFromArea")
+	@Produces("application/json")
+	public JSONObject getRilasciFromArea(@QueryParam("codiceArea") String codiceArea) {
+
+		JSONObject obj = new JSONObject();
+		obj.put("rilasciAree", JsonReleaseFiltri.getRilasciFromArea(codiceArea));
 
 		System.out.println("-----------JSON-----------");
 		System.out.println(obj);
