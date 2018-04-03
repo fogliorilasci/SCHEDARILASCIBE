@@ -530,7 +530,9 @@ public class ServicesGet {
 		if(size == 1){
 			obj.put("infoStati", JsonReleaseStatus.getReleaseStatus(idPolarion));
 		}
-
+		
+		obj.put("idReleaseIt", JsonReleaseInfoGeneral.getIdReleaseIt(idPolarion));
+		
 		System.out.println("-----------JSON-----------");
 		System.out.println(obj);
 		System.out.println("--------------------------");
@@ -550,6 +552,17 @@ public class ServicesGet {
 		if (result.size() == 1) {
 			obj.put("status", JsonReleaseITGeneralInfo.getReleaseITStatus(idPolarion));
 			obj.put("task", JsonReleaseITGeneralInfo.getTaskIt(idPolarion));
+			
+//			JSONObject tc = JsonReleaseITGeneralInfo.getTestCaseByReleaseIT(idPolarion);
+//			if(JsonReleaseITGeneralInfo.getTestCaseByReleaseIT(idPolarion) != null){
+//				System.out.println("not null");
+//				obj.put("testcase", JsonReleaseITGeneralInfo.getTestCaseByReleaseIT(idPolarion));
+//			}
+//			else {
+//				System.out.println("null");
+//				obj.put("testcase", 0);
+//			}
+			
 			obj.put("testcase", JsonReleaseITGeneralInfo.getTestCaseByReleaseIT(idPolarion));
 			obj.put("timing", JsonReleaseITGeneralInfo.getTimingByReleaseIT(idPolarion));
 			obj.put("authors", JsonReleaseITGeneralInfo.getAuthorsByReleaseIT(idPolarion));

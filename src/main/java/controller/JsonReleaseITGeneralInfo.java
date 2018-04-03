@@ -325,9 +325,11 @@ public class JsonReleaseITGeneralInfo {
 				
 				if(!listIdTask.contains(tItH.getTaskit().getIdPolarion())){
 					String titolo = tItH.getTaskit().getTitolo();
-					titolo = titolo.substring(titolo.indexOf("(") + 1, titolo.indexOf(")"));
-					objTaskId.add(columnIndexTaskID++, "ID Task "+titolo+" : "+tItH.getTaskit().getIdPolarion());
-					listIdTask.add(tItH.getTaskit().getIdPolarion());
+					if(titolo.contains("(") && titolo.contains(")")){
+						titolo = titolo.substring(titolo.indexOf("(") + 1, titolo.indexOf(")"));
+						objTaskId.add(columnIndexTaskID++, "ID Task "+titolo+" : "+tItH.getTaskit().getIdPolarion());
+						listIdTask.add(tItH.getTaskit().getIdPolarion());
+					}
 				}
 				
 				if (lastDateTest == null) {

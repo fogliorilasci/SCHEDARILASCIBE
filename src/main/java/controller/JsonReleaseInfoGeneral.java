@@ -131,6 +131,11 @@ public class JsonReleaseInfoGeneral {
 		JsonReleaseInfoGeneral.size = size;
 	}
 
+	public static Object getIdReleaseIt(String idPolarion) {
+		// TODO Auto-generated method stub
+		return QueryInfoRelease.getIdReleaseIt(idPolarion);
+	}
+
 
 	//	public static String getCodArea(String codProdotto) {
 	//

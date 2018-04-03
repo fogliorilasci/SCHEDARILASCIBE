@@ -26,6 +26,7 @@ import basic.Util;
 import entities.Anomalia;
 import entities.Defect;
 import entities.DefectHistory;
+import entities.LinkedItem;
 import entities.Release;
 import entities.ReleaseHistory;
 import entities.ReleaseIt;
@@ -505,6 +506,22 @@ public class QueryInfoRelease {
 
 		session.getTransaction().commit();
 		return result;
+	}
+
+	public static Object getIdReleaseIt(String idPolarion) {
+	Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+	if (!session.getTransaction().isActive())
+		session.beginTransaction();
+
+	String query = "select * from rilasci_db.linked_item where id_polarion_figlio = '"+idPolarion+"';";
+	
+	@SuppressWarnings("unchecked")
+	Query<LinkedItem> q = session.createNativeQuery(query, LinkedItem.class);
+
+	List<LinkedItem> result = q.getResultList();
+
+	session.getTransaction().commit();
+	return result.get(0).getId().getIdPolarionPadre();
 	}
 
 }
