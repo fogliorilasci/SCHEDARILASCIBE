@@ -2,6 +2,7 @@ package controller;
 
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -598,7 +599,62 @@ public class QueryReleaseIT {
 				+ "' = li_rit_r.id_polarion_padre AND r.id_polarion = li_rit_r.id_polarion_figlio AND r.id = rh.cod_id_release AND rh.cod_status = s.id AND"
 				+ "(s.polarion_name = 'quickfix' OR s.polarion_name = 'in_integrazione') "
 				+ "ORDER BY rh.data_update ASC";
+		Query<ReleaseHistory> q = session.createNativeQuery(query, ReleaseHistory.class);
 
+		List<ReleaseHistory> result = q.getResultList();
+
+		session.getTransaction().commit();
+
+		return result;
+	}
+
+	public static List<ReleaseHistory> getReleseHistoryByStatusSviluppoAndQuickBuild(ReleaseIt r) {
+		if (r == null) {
+			NullPointerException npe = new NullPointerException();
+			if (Util.DEBUG)
+				Util.writeLog("QueryReleaseIT.java throws exception", npe);
+			Logger.getLogger(QueryReleaseIT.class.getName()).log(Level.SEVERE, "QueryReleaseIT.java throws exception",
+					npe);
+			return null;
+		}
+
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		if (!session.getTransaction().isActive())
+			session.beginTransaction();
+
+		String query = "SELECT rh.* FROM release_history AS rh INNER JOIN rilasci_db.release AS r INNER JOIN linked_item AS li_rit_r INNER JOIN rilasci_db.status AS s"
+				+ " WHERE '" + r.getIdPolarion()
+				+ "' = li_rit_r.id_polarion_padre AND r.id_polarion = li_rit_r.id_polarion_figlio AND r.id = rh.cod_id_release AND rh.cod_status = s.id AND"
+				+ "(s.polarion_name = 'in_sviluppo' OR s.polarion_name = 'quickbuild') "
+				+ "ORDER BY rh.data_update ASC";
+		Query<ReleaseHistory> q = session.createNativeQuery(query, ReleaseHistory.class);
+
+		List<ReleaseHistory> result = q.getResultList();
+
+		session.getTransaction().commit();
+
+		return result;
+	}
+
+	public static List<ReleaseHistory> getReleseHistoryByStatusCM(ReleaseIt r) {
+		if (r == null) {
+			NullPointerException npe = new NullPointerException();
+			if (Util.DEBUG)
+				Util.writeLog("QueryReleaseIT.java throws exception", npe);
+			Logger.getLogger(QueryReleaseIT.class.getName()).log(Level.SEVERE, "QueryReleaseIT.java throws exception",
+					npe);
+			return null;
+		}
+
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		if (!session.getTransaction().isActive())
+			session.beginTransaction();
+
+		String query = "SELECT rh.* FROM release_history AS rh INNER JOIN rilasci_db.release AS r INNER JOIN linked_item AS li_rit_r INNER JOIN rilasci_db.status AS s"
+				+ " WHERE '" + r.getIdPolarion()
+				+ "' = li_rit_r.id_polarion_padre AND r.id_polarion = li_rit_r.id_polarion_figlio AND r.id = rh.cod_id_release AND rh.cod_status = s.id AND"
+				+ "(s.polarion_name = 'in_compilazione' OR s.polarion_name = 'go_integrazione') "
+				+ "ORDER BY rh.data_update ASC";
 		Query<ReleaseHistory> q = session.createNativeQuery(query, ReleaseHistory.class);
 
 		List<ReleaseHistory> result = q.getResultList();
@@ -737,6 +793,38 @@ public class QueryReleaseIT {
 		Query<Defect> q = session.createNativeQuery(query, Defect.class);
 
 		List<Defect> result = q.getResultList();
+
+		session.getTransaction().commit();
+
+		return result;
+	}
+
+	public static Integer getChecklistCountByQuickfixDate(Date startDate, Date endDate, ReleaseIt r) {
+		if (endDate == null) {
+			NullPointerException npe = new NullPointerException();
+			if (Util.DEBUG)
+				Util.writeLog("QueryReleaseIT.java throws exception", npe);
+			Logger.getLogger(QueryReleaseIT.class.getName()).log(Level.SEVERE, "QueryReleaseIT.java throws exception",
+					npe);
+			return null;
+		}
+
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		if (!session.getTransaction().isActive())
+			session.beginTransaction();
+
+		String query = "SELECT COUNT(*) FROM linked_item AS li_rit_cl INNER JOIN checklist AS cl WHERE '"
+				+ r.getIdPolarion()
+				+ "' = li_rit_cl.id_polarion_padre AND cl.id_polarion = li_rit_cl.id_polarion_figlio AND cl.data_fine IS NOT NULL";
+		if (startDate != null)
+			query += " AND cl.data_fine > '" + sdf.format(startDate) + "'";
+
+		query += " AND cl.data_fine <= '" + sdf.format(endDate) + "'";
+
+		@SuppressWarnings("unchecked")
+		Query<BigInteger> q = session.createNativeQuery(query);
+
+		Integer result = q.getSingleResult().intValue();
 
 		session.getTransaction().commit();
 

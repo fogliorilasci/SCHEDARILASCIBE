@@ -27,6 +27,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -516,16 +517,19 @@ public class ServicesGet {
 	public JSONObject getInfoReleaseProgetto(@QueryParam("idPolarion") String idPolarion) throws ParseException {
 
 		JSONObject obj = new JSONObject();
-		obj.put("infoMev", JsonReleaseMev.getReleaseMevInfo(idPolarion));
-		obj.put("infoProgettoSviluppo", JsonReleaseProgettoSviluppo.getReleaseProgettoSviluppoInfo(idPolarion));
-		obj.put("infoAnomalia", JsonReleaseAnomalia.getReleaseDefectInfo(idPolarion));
-		obj.put("infoDefect", JsonReleaseDefect.getReleaseDefectInfo(idPolarion));
-		obj.put("infoDocumenti", JsonReleaseDocumenti.getReleaseDocumentiInfo(idPolarion));
 		obj.put("infoGenerali", JsonReleaseInfoGeneral.getReleaseGeneralInfo(idPolarion));
-		obj.put("infoTotDefect", JsonReleaseDefect.getReleaseDefectInfoTotal(idPolarion));
-		obj.put("infoTotAnomalie", JsonReleaseAnomalia.getReleaseAnomalieInfoTotal(idPolarion));
 		int size = JsonReleaseInfoGeneral.getSize();
 		obj.put("numRows", size);
+		
+		if(size != 0){
+			obj.put("infoMev", JsonReleaseMev.getReleaseMevInfo(idPolarion));
+			obj.put("infoProgettoSviluppo", JsonReleaseProgettoSviluppo.getReleaseProgettoSviluppoInfo(idPolarion));
+			obj.put("infoAnomalia", JsonReleaseAnomalia.getReleaseDefectInfo(idPolarion));
+			obj.put("infoDefect", JsonReleaseDefect.getReleaseDefectInfo(idPolarion));
+			obj.put("infoDocumenti", JsonReleaseDocumenti.getReleaseDocumentiInfo(idPolarion));
+			obj.put("infoTotDefect", JsonReleaseDefect.getReleaseDefectInfoTotal(idPolarion));
+			obj.put("infoTotAnomalie", JsonReleaseAnomalia.getReleaseAnomalieInfoTotal(idPolarion));
+		}
 
 		if(size == 1){
 			obj.put("infoStati", JsonReleaseStatus.getReleaseStatus(idPolarion));
@@ -567,6 +571,7 @@ public class ServicesGet {
 			obj.put("timing", JsonReleaseITGeneralInfo.getTimingByReleaseIT(idPolarion));
 			obj.put("authors", JsonReleaseITGeneralInfo.getAuthorsByReleaseIT(idPolarion));
 			obj.put("cl", JsonReleaseITGeneralInfo.getCheckListByReleaseIT(idPolarion));
+			obj.put("qf_cl", JsonReleaseITGeneralInfo.getPairQuickfixChecklistByReleaseIT(idPolarion));
 		}
 
 		System.out.println("-----------JSON-----------");
@@ -591,49 +596,91 @@ public class ServicesGet {
 		return obj;
 	}
 
+//	@GET
+//	@Path("/getRilasciApplicativo")
+//	@Produces("application/json")
+//	public JSONObject getRilasciApplicativo(@QueryParam("applicativo") String applicativo) {
+//
+//		JSONObject obj = new JSONObject();
+//		obj.put("rilasciApplicativo", JsonReleaseFiltri.getRilasciApplicativo(applicativo));
+//
+//		System.out.println("-----------JSON-----------");
+//		System.out.println(obj);
+//		System.out.println("--------------------------");
+//
+//		return obj;
+//	}
+	
 	@GET
 	@Path("/getRilasciApplicativo")
 	@Produces("application/json")
-	public JSONObject getRilasciApplicativo(@QueryParam("applicativo") String applicativo) {
+	public String getRilasciApplicativo(@QueryParam("applicativo") String applicativo) {
 
-		JSONObject obj = new JSONObject();
-		obj.put("rilasciApplicativo", JsonReleaseFiltri.getRilasciApplicativo(applicativo));
+		JSONArray arr = JsonReleaseFiltri.getRilasciApplicativo(applicativo);
 
 		System.out.println("-----------JSON-----------");
-		System.out.println(obj);
+		System.out.println(arr);
 		System.out.println("--------------------------");
 
-		return obj;
+		return arr.toString();
 	}
 
+//	@GET
+//	@Path("/getRilasciContesto")
+//	@Produces("application/json")
+//	public JSONObject getRilasciContesto(@QueryParam("contesto") String contesto) {
+//
+//		JSONObject obj = new JSONObject();
+//		obj.put("rilasciContesto", JsonReleaseFiltri.getRilasciContesto(contesto));
+//
+//		System.out.println("-----------JSON-----------");
+//		System.out.println(obj);
+//		System.out.println("--------------------------");
+//
+//		return obj;
+//	}
+	
 	@GET
 	@Path("/getRilasciContesto")
 	@Produces("application/json")
-	public JSONObject getRilasciContesto(@QueryParam("contesto") String contesto) {
+	public String getRilasciContesto(@QueryParam("contesto") String contesto) {
 
-		JSONObject obj = new JSONObject();
-		obj.put("rilasciContesto", JsonReleaseFiltri.getRilasciContesto(contesto));
+		JSONArray arr = JsonReleaseFiltri.getRilasciContesto(contesto);
 
 		System.out.println("-----------JSON-----------");
-		System.out.println(obj);
+		System.out.println(arr);
 		System.out.println("--------------------------");
 
-		return obj;
+		return arr.toString();
 	}
+	
+//	@GET
+//	@Path("/getRilasciFromArea")
+//	@Produces("application/json")
+//	public JSONObject getRilasciFromArea(@QueryParam("codiceArea") String codiceArea) {
+//
+//		JSONObject obj = new JSONObject();
+//		obj.put("rilasciAree", JsonReleaseFiltri.getRilasciFromArea(codiceArea));
+//
+//		System.out.println("-----------JSON-----------");
+//		System.out.println(obj);
+//		System.out.println("--------------------------");
+//
+//		return obj;
+//	}
 	
 	@GET
 	@Path("/getRilasciFromArea")
 	@Produces("application/json")
-	public JSONObject getRilasciFromArea(@QueryParam("codiceArea") String codiceArea) {
+	public String getRilasciFromArea(@QueryParam("codiceArea") String codiceArea) {
 
-		JSONObject obj = new JSONObject();
-		obj.put("rilasciAree", JsonReleaseFiltri.getRilasciFromArea(codiceArea));
+		JSONArray arr = JsonReleaseFiltri.getRilasciFromArea(codiceArea);
 
 		System.out.println("-----------JSON-----------");
-		System.out.println(obj);
+		System.out.println(arr);
 		System.out.println("--------------------------");
 
-		return obj;
+		return arr.toString();
 	}
 
 }

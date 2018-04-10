@@ -11,11 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import entities.Release;
 
 public class JsonReleaseFiltri {
-	
+
 	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public static JSONArray getReleaseFiltri(String area, String contesto, String project){
@@ -29,7 +30,7 @@ public class JsonReleaseFiltri {
 
 		return objArray;
 	}
-	
+
 	public static List<String> getArea(String areaColonnaB){
 		ClassLoader classLoader = JsonReleaseInfoGeneral.class.getClassLoader();
 		File file = new File(classLoader.getResource("AreeApplicativi.csv").getFile());
@@ -61,60 +62,116 @@ public class JsonReleaseFiltri {
 			String[] aP=string.split(";");
 			if(aP[1].equals(areaColonnaB)) aree.add(aP[0]);
 		}
-		
+
 		return aree;
 	}
 
+	//	public static JSONArray getRilasciApplicativo(String applicativo) {
+	//		
+	//		JSONArray objArray = new JSONArray();
+	//		List<Release> releaseFiltri = QueryInfoRelease.getReleaseFromApplicativo(applicativo);
+	//		for (Release release : releaseFiltri) {
+	//			objArray.add(release.getIdPolarion());
+	//			objArray.add(release.getTitolo());
+	//			objArray.add(sdf.format(release.getDataCreazione()));
+	//			objArray.add(sdf.format(release.getDataUpdate()));
+	//		}
+	//		return objArray;
+	//	}
+
 	public static JSONArray getRilasciApplicativo(String applicativo) {
-		
+
 		JSONArray objArray = new JSONArray();
+
 		List<Release> releaseFiltri = QueryInfoRelease.getReleaseFromApplicativo(applicativo);
 		for (Release release : releaseFiltri) {
-//			result.add(release.getIdPolarion()+" - "+release.getTitolo());
-			objArray.add(release.getIdPolarion());
-			objArray.add(release.getTitolo());
-			objArray.add(sdf.format(release.getDataCreazione()));
-			objArray.add(sdf.format(release.getDataUpdate()));
+			JSONObject obj = new JSONObject();
+			obj.put("ID Polarion",release.getIdPolarion());
+			obj.put("Titolo",release.getTitolo());
+			obj.put("Data Creazione",sdf.format(release.getDataCreazione()));
+			obj.put("Data Aggiornamento",sdf.format(release.getDataUpdate()));
+
+			objArray.add(obj);
 		}
-		
-//		objArray.add(result);
+
+		System.out.println(objArray);
 
 		return objArray;
 	}
 
-	public static Object getRilasciContesto(String contesto) {
+	//	public static Object getRilasciContesto(String contesto) {
+	//		JSONArray objArray = new JSONArray();
+	//		List<Release> releaseFiltri = QueryInfoRelease.getReleaseFromContesto(contesto);
+	//		List<String> result = new ArrayList<String>();
+	//		for (Release release : releaseFiltri) {
+	//			objArray.add(release.getIdPolarion());
+	//			objArray.add(release.getTitolo());
+	//			objArray.add(sdf.format(release.getDataCreazione()));
+	//			objArray.add(sdf.format(release.getDataUpdate()));
+	//		}
+	//		return objArray;
+	//	}
+
+	public static JSONArray getRilasciContesto(String contesto) {
+
 		JSONArray objArray = new JSONArray();
+
 		List<Release> releaseFiltri = QueryInfoRelease.getReleaseFromContesto(contesto);
-		List<String> result = new ArrayList<String>();
 		for (Release release : releaseFiltri) {
-//			result.add(release.getIdPolarion()+" - "+release.getTitolo());
-			objArray.add(release.getIdPolarion());
-			objArray.add(release.getTitolo());
-			objArray.add(sdf.format(release.getDataCreazione()));
-			objArray.add(sdf.format(release.getDataUpdate()));
+			JSONObject obj = new JSONObject();
+			obj.put("ID Polarion",release.getIdPolarion());
+			obj.put("Titolo",release.getTitolo());
+			obj.put("Data Creazione",sdf.format(release.getDataCreazione()));
+			obj.put("Data Aggiornamento",sdf.format(release.getDataUpdate()));
+
+			objArray.add(obj);
 		}
-		
-//		objArray.add(result);
+
+		System.out.println(objArray);
 
 		return objArray;
 	}
-	
+
+	//	public static JSONArray getRilasciFromArea(String codiceArea){
+	//		JSONArray objArray = new JSONArray();
+	//		List<String> aree = getArea(codiceArea);
+	//		
+	//		for (String area : aree) {
+	//			List<Release> releaseFiltri = QueryInfoRelease.getReleaseFromApplicativo(area);
+	//			for (Release release : releaseFiltri) {
+	//				objArray.add(release.getIdPolarion());
+	//				objArray.add(release.getTitolo());
+	//				objArray.add(sdf.format(release.getDataCreazione()));
+	//				objArray.add(sdf.format(release.getDataUpdate()));
+	//			}
+	//		}
+	//		
+	//		return objArray;
+	//		
+	//	}
+
 	public static JSONArray getRilasciFromArea(String codiceArea){
+
 		JSONArray objArray = new JSONArray();
+
 		List<String> aree = getArea(codiceArea);
-		
+
 		for (String area : aree) {
 			List<Release> releaseFiltri = QueryInfoRelease.getReleaseFromApplicativo(area);
 			for (Release release : releaseFiltri) {
-				objArray.add(release.getIdPolarion());
-				objArray.add(release.getTitolo());
-				objArray.add(sdf.format(release.getDataCreazione()));
-				objArray.add(sdf.format(release.getDataUpdate()));
+				JSONObject obj = new JSONObject();
+				obj.put("ID Polarion",release.getIdPolarion());
+				obj.put("Titolo",release.getTitolo());
+				obj.put("Data Creazione",sdf.format(release.getDataCreazione()));
+				obj.put("Data Aggiornamento",sdf.format(release.getDataUpdate()));
+
+				objArray.add(obj);
 			}
 		}
-		
+
+		System.out.println(objArray);
+
 		return objArray;
-		
 	}
 
 }

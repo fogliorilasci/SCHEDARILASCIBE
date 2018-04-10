@@ -13,8 +13,6 @@ import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import com.mysql.cj.x.json.JsonArray;
-
 import basic.HibernateUtil;
 import basic.Util;
 import entities.Checklist;
@@ -202,11 +200,12 @@ public class JsonReleaseITGeneralInfo {
 
 			if (rh.getStatus().getPolarionName().equals("rifiutato"))
 				numRifiutati++;
-			
-			if (i + 1 < releaseItHistoryList.size() && releaseItHistoryList.get(i + 1).getStatus().equals(rh.getStatus()))
+
+			if (i + 1 < releaseItHistoryList.size()
+					&& releaseItHistoryList.get(i + 1).getStatus().equals(rh.getStatus()))
 				continue;
 			objArray.add(columnIndex++, rh.getStatus().getPolarionName());
-			
+
 			if (isFirstHistory) {
 				lastDate = sdf.format(rh.getDataUpdate());
 				objArray.add(columnIndex++, sdf.format(rh.getReleaseIt().getDataCreazione()));
@@ -249,7 +248,7 @@ public class JsonReleaseITGeneralInfo {
 
 		JSONObject obj = new JSONObject();
 		List<TaskItHistory> taskItHistoryList = QueryReleaseIT.getTastItHistoryByReleaseIT(param);
-		
+
 		List<String> listIdTask = new ArrayList<String>();
 
 		JSONArray objArrayDeploy = new JSONArray(), objArrayDBA = new JSONArray(), objArrayTest = new JSONArray(),
@@ -270,14 +269,14 @@ public class JsonReleaseITGeneralInfo {
 			switch (getUserType(tItH.getUser().getIdPolarion())) {
 			case "deploy":
 				objArrayDeploy.add(columnIndexDeploy++, tItH.getStatus().getPolarionName());
-				
-				if(!listIdTask.contains(tItH.getTaskit().getIdPolarion())){
+
+				if (!listIdTask.contains(tItH.getTaskit().getIdPolarion())) {
 					String titolo = tItH.getTaskit().getTitolo();
 					titolo = titolo.substring(titolo.indexOf("(") + 1, titolo.indexOf(")"));
-					objTaskId.add(columnIndexTaskID++, "ID Task "+titolo+" : "+tItH.getTaskit().getIdPolarion());
+					objTaskId.add(columnIndexTaskID++, "ID Task " + titolo + " : " + tItH.getTaskit().getIdPolarion());
 					listIdTask.add(tItH.getTaskit().getIdPolarion());
 				}
-				
+
 				if (lastDateDeploy == null) {
 					objArrayDeploy.add(columnIndexDeploy++, sdf.format(tItH.getTaskit().getDataCreazione()));
 					lastDateDeploy = tItH.getDataUpdate();
@@ -296,14 +295,14 @@ public class JsonReleaseITGeneralInfo {
 				break;
 			case "dba":
 				objArrayDBA.add(columnIndexDBA++, tItH.getStatus().getPolarionName());
-				
-				if(!listIdTask.contains(tItH.getTaskit().getIdPolarion())){
+
+				if (!listIdTask.contains(tItH.getTaskit().getIdPolarion())) {
 					String titolo = tItH.getTaskit().getTitolo();
 					titolo = titolo.substring(titolo.indexOf("(") + 1, titolo.indexOf(")"));
-					objTaskId.add(columnIndexTaskID++, "ID Task "+titolo+" : "+tItH.getTaskit().getIdPolarion());
+					objTaskId.add(columnIndexTaskID++, "ID Task " + titolo + " : " + tItH.getTaskit().getIdPolarion());
 					listIdTask.add(tItH.getTaskit().getIdPolarion());
 				}
-				
+
 				if (lastDateDBA == null) {
 					objArrayDBA.add(columnIndexDBA++, sdf.format(tItH.getTaskit().getDataCreazione()));
 					lastDateDBA = tItH.getDataUpdate();
@@ -322,16 +321,15 @@ public class JsonReleaseITGeneralInfo {
 				break;
 			case "test":
 				objArrayTest.add(columnIndexTest++, tItH.getStatus().getPolarionName());
-				
-				if(!listIdTask.contains(tItH.getTaskit().getIdPolarion())){
+
+				if (!listIdTask.contains(tItH.getTaskit().getIdPolarion())) {
 					String titolo = tItH.getTaskit().getTitolo();
-					if(titolo.contains("(") && titolo.contains(")")){
+					if(titolo.contains("("))
 						titolo = titolo.substring(titolo.indexOf("(") + 1, titolo.indexOf(")"));
-						objTaskId.add(columnIndexTaskID++, "ID Task "+titolo+" : "+tItH.getTaskit().getIdPolarion());
-						listIdTask.add(tItH.getTaskit().getIdPolarion());
-					}
+					objTaskId.add(columnIndexTaskID++, "ID Task " + titolo + " : " + tItH.getTaskit().getIdPolarion());
+					listIdTask.add(tItH.getTaskit().getIdPolarion());
 				}
-				
+
 				if (lastDateTest == null) {
 					objArrayTest.add(columnIndexTest++, sdf.format(tItH.getTaskit().getDataCreazione()));
 					lastDateTest = tItH.getDataUpdate();
@@ -350,14 +348,14 @@ public class JsonReleaseITGeneralInfo {
 				break;
 			case "cm":
 				objArrayContrDoc.add(columnIndexContrDoc++, tItH.getStatus().getPolarionName());
-				
-				if(!listIdTask.contains(tItH.getTaskit().getIdPolarion())){
+
+				if (!listIdTask.contains(tItH.getTaskit().getIdPolarion())) {
 					String titolo = tItH.getTaskit().getTitolo();
 					titolo = titolo.substring(titolo.indexOf("(") + 1, titolo.indexOf(")"));
-					objTaskId.add(columnIndexTaskID++, "ID Task "+titolo+" : "+tItH.getTaskit().getIdPolarion());
+					objTaskId.add(columnIndexTaskID++, "ID Task " + titolo + " : " + tItH.getTaskit().getIdPolarion());
 					listIdTask.add(tItH.getTaskit().getIdPolarion());
 				}
-				
+
 				if (lastDateContrDoc == null) {
 					objArrayContrDoc.add(columnIndexContrDoc++, sdf.format(tItH.getTaskit().getDataCreazione()));
 					lastDateContrDoc = tItH.getDataUpdate();
@@ -377,14 +375,14 @@ public class JsonReleaseITGeneralInfo {
 				break;
 			case "dataprep":
 				objArrayDataPrep.add(columnIndexDataPrep++, tItH.getStatus().getPolarionName());
-				
-				if(!listIdTask.contains(tItH.getTaskit().getIdPolarion())){
+
+				if (!listIdTask.contains(tItH.getTaskit().getIdPolarion())) {
 					String titolo = tItH.getTaskit().getTitolo();
 					titolo = titolo.substring(titolo.indexOf("(") + 1, titolo.indexOf(")"));
-					objTaskId.add(columnIndexTaskID++, "ID Task "+titolo+" : "+tItH.getTaskit().getIdPolarion());
+					objTaskId.add(columnIndexTaskID++, "ID Task " + titolo + " : " + tItH.getTaskit().getIdPolarion());
 					listIdTask.add(tItH.getTaskit().getIdPolarion());
 				}
-				
+
 				if (lastDateDataPrep == null) {
 					objArrayDataPrep.add(columnIndexDataPrep++, sdf.format(tItH.getTaskit().getDataCreazione()));
 					lastDateDataPrep = tItH.getDataUpdate();
@@ -419,7 +417,7 @@ public class JsonReleaseITGeneralInfo {
 		obj.put("infoTaskContrDoc", objArrayContrDoc);
 		obj.put("infoTaskDataPrep", objArrayDataPrep);
 		obj.put("infoTaskId", objTaskId);
-		
+
 		return obj;
 	}
 
@@ -504,6 +502,7 @@ public class JsonReleaseITGeneralInfo {
 	 */
 	@SuppressWarnings("unchecked")
 	public static JSONObject getTimingByReleaseIT(String param) {
+
 		if (param == null)
 			return null;
 		JSONObject obj = new JSONObject();
@@ -542,11 +541,12 @@ public class JsonReleaseITGeneralInfo {
 		 * stesso tipo.
 		 * 
 		 */
-		long qfTime = 0, qfWorkingTime = 0;
+		long qfTime = 0, qfWorkingTime = 0, sviluppoQBuildTime = 0, sviluppoQBuildWorkingTime = 0, cmTime = 0,
+				cmWorkingTime = 0;
 		Date startDate = null;
 		for (int i = 0; i < list.size(); i++) {
 			ReleaseHistory rh = list.get(i);
-			if (startDate == null || rh.getStatus().getPolarionName().equals("in_integrazione")) {
+			if (startDate == null || (rh.getStatus().getPolarionName().equals("in_integrazione") && i != list.size() - 1)) {
 				if (rh.getStatus().getPolarionName().equals("quickfix")) {
 					IllegalStateException ise = new IllegalStateException();
 					if (Util.DEBUG)
@@ -561,6 +561,7 @@ public class JsonReleaseITGeneralInfo {
 			qfTime += rh.getDataUpdate().getTime() - startDate.getTime();
 			String time = Time.numberOfWorkingHoursInPeriod(startDate, rh.getDataUpdate());
 			qfWorkingTime += Long.parseLong(time.substring(0, time.indexOf(":")));
+
 			/*
 			 * Faccio questo aggiornamento della startDate a causa della
 			 * situazione espressa nel NB riportato sopra
@@ -569,6 +570,63 @@ public class JsonReleaseITGeneralInfo {
 		}
 		objArray.add(columnIndex++, "" + Math.floorDiv(qfTime, hour));
 		objArray.add(columnIndex++, "" + Math.floorDiv(qfWorkingTime, hour));
+
+		startDate = null;
+		list = QueryReleaseIT.getReleseHistoryByStatusSviluppoAndQuickBuild(r);
+		for (int i = 0; i < list.size(); i++) {
+			ReleaseHistory rh = list.get(i);
+			if (startDate == null || (rh.getStatus().getPolarionName().equals("in_sviluppo") && i != list.size() - 1)) {
+				if (rh.getStatus().getPolarionName().equals("quickbuild")) {
+					IllegalStateException ise = new IllegalStateException();
+					if (Util.DEBUG)
+						Util.writeLog("JsonReleaseITGeneralInfo.java throws exception", ise);
+					Logger.getLogger(JsonReleaseITGeneralInfo.class.getName()).log(Level.SEVERE,
+							"JsonReleaseITGeneralInfo.java throws exception", ise);
+					return null;
+				}
+				startDate = rh.getDataUpdate();
+				continue;
+			}
+			sviluppoQBuildTime += rh.getDataUpdate().getTime() - startDate.getTime();
+			String time = Time.numberOfWorkingHoursInPeriod(startDate, rh.getDataUpdate());
+			sviluppoQBuildWorkingTime += Long.parseLong(time.substring(0, time.indexOf(":")));
+			/*
+			 * Faccio questo aggiornamento della startDate a causa della
+			 * situazione espressa nel NB riportato sopra
+			 */
+			startDate = rh.getDataUpdate();
+		}
+		objArray.add(columnIndex++, "" + Math.floorDiv(sviluppoQBuildTime, hour));
+		objArray.add(columnIndex++, "" + Math.floorDiv(sviluppoQBuildWorkingTime, hour));
+
+		startDate = null;
+		list = QueryReleaseIT.getReleseHistoryByStatusCM(r);
+		for (int i = 0; i < list.size(); i++) {
+			ReleaseHistory rh = list.get(i);
+			if (startDate == null || (rh.getStatus().getPolarionName().equals("in_compilazione") && i != list.size() - 1)) {
+				if (rh.getStatus().getPolarionName().equals("go_integrazione")) {
+					IllegalStateException ise = new IllegalStateException();
+					if (Util.DEBUG)
+						Util.writeLog("JsonReleaseITGeneralInfo.java throws exception", ise);
+					Logger.getLogger(JsonReleaseITGeneralInfo.class.getName()).log(Level.SEVERE,
+							"JsonReleaseITGeneralInfo.java throws exception", ise);
+					return null;
+				}
+				startDate = rh.getDataUpdate();
+				continue;
+			}
+			cmTime += rh.getDataUpdate().getTime() - startDate.getTime();
+			String time = Time.numberOfWorkingHoursInPeriod(startDate, rh.getDataUpdate());
+			cmWorkingTime += Long.parseLong(time.substring(0, time.indexOf(":")));
+
+			/*
+			 * Faccio questo aggiornamento della startDate a causa della
+			 * situazione espressa nel NB riportato sopra
+			 */
+			startDate = rh.getDataUpdate();
+		}
+		objArray.add(columnIndex++, "" + Math.floorDiv(cmTime, hour));
+		objArray.add(columnIndex++, "" + Math.floorDiv(cmWorkingTime, hour));
 
 		List<Long> testList = calculateTimeByTaskitHistory(QueryReleaseIT.getTimingTestTaskit(r));
 		objArray.add(columnIndex++, "" + testList.get(0));
@@ -736,6 +794,42 @@ public class JsonReleaseITGeneralInfo {
 		objArrayUsers.addAll(QueryReleaseIT.getDistinctUserInChecklistTestcaseByReleaseIT(r));
 		obj.put("cl_users", objArrayUsers);
 
+		return obj;
+	}
+	
+	/**
+	 * It counts all executed checklists for each quickfix's periods starting from a release IT. Param must
+	 * be the releaseIT's id_polarion.
+	 * 
+	 * @param String
+	 *            param
+	 * @return JSONObject
+	 */
+	@SuppressWarnings("unchecked")
+	public static JSONObject getPairQuickfixChecklistByReleaseIT(String param) {
+		if (param == null)
+			return null;
+		JSONObject obj = new JSONObject();
+		
+		List<ReleaseIt> releaseItList = QueryReleaseIT.getInfoReleaseITByIDPolarion(param);
+
+		if (releaseItList == null || releaseItList.size() != 1)
+			return null;
+
+		ReleaseIt r = releaseItList.get(0);
+		
+		List<ReleaseHistory> quickfixList = QueryReleaseIT.getReleseHistoryByStatusQuickfixAndInIntegrazione(r);
+		JSONArray objArray = new JSONArray();
+		int columnIndex = 0;
+		Date startDate = null;
+		for(ReleaseHistory rh: quickfixList){
+			if(!rh.getStatus().getPolarionName().equals("quickfix"))
+				continue;
+			objArray.add(columnIndex++, sdf.format(rh.getDataUpdate()));
+			objArray.add(columnIndex++, QueryReleaseIT.getChecklistCountByQuickfixDate(startDate,rh.getDataUpdate(), r));
+			startDate = rh.getDataUpdate();
+		}
+		obj.put("qf_cl_pair", objArray);
 		return obj;
 	}
 }
