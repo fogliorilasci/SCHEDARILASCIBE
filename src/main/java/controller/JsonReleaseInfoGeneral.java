@@ -12,7 +12,10 @@ import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import basic.HibernateUtil;
+import entities.Project;
 import entities.Release;
+import entities.ReleaseHistory;
 
 public class JsonReleaseInfoGeneral {
 	
@@ -122,6 +125,22 @@ public class JsonReleaseInfoGeneral {
 		}
 		return objArray;
 	}
+	
+	public static JSONArray getListProjectForStima(){
+		List<Project> projects = HibernateUtil.readAllProjects();
+		
+		JSONArray objArray = new JSONArray();
+		int columnIndex = 0;
+		
+		for (Project p : projects) {
+			if(p.getNome().contains("{")){
+				String projectName = p.getNome().substring(p.getNome().indexOf("{")+1, p.getNome().indexOf("}"));
+				objArray.add(columnIndex++, projectName);
+			}
+		}
+		
+		return objArray;
+	}
 
 	public static int getSize() {
 		return size;
@@ -135,8 +154,7 @@ public class JsonReleaseInfoGeneral {
 		// TODO Auto-generated method stub
 		return QueryInfoRelease.getIdReleaseIt(idPolarion);
 	}
-
-
+	
 	//	public static String getCodArea(String codProdotto) {
 	//
 	//		ClassLoader classLoader = getClass().getClassLoader();

@@ -507,6 +507,22 @@ public class QueryInfoRelease {
 		session.getTransaction().commit();
 		return result;
 	}
+	
+	public static List<Release> getReleaseFromProject(String project) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		if (!session.getTransaction().isActive())
+			session.beginTransaction();
+
+		String query = "select * from rilasci_db.release where id_polarion like '%"+project+"%';";
+		
+		@SuppressWarnings("unchecked")
+		Query<Release> q = session.createNativeQuery(query, Release.class);
+
+		List<Release> result = q.getResultList();
+
+		session.getTransaction().commit();
+		return result;
+	}
 
 	public static Object getIdReleaseIt(String idPolarion) {
 	Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -523,5 +539,27 @@ public class QueryInfoRelease {
 	session.getTransaction().commit();
 	return result.get(0).getId().getIdPolarionPadre();
 	}
+	
+	public static String getIdReleaseItFromReleaseId(String idRelease) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		if (!session.getTransaction().isActive())
+			session.beginTransaction();
+
+		String query = "select * from linked_item where id_polarion_figlio = '"+idRelease+"';";
+		
+		@SuppressWarnings("unchecked")
+		Query<LinkedItem> q = session.createNativeQuery(query, LinkedItem.class);
+
+		List<LinkedItem> result = q.getResultList();
+		
+		String idReleaseIt = "";
+		if(!result.isEmpty()){		
+			idReleaseIt = result.get(0).getId().getIdPolarionPadre();
+		}
+		
+		session.getTransaction().commit();
+		return idReleaseIt;
+	}
+
 
 }

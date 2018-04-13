@@ -180,6 +180,7 @@ public class HibernateUtil {
 		
 		return list;
 	}
+	
 	public static Project readProjectForName(String name) {
 
 		Session session = getSessionFactory().getCurrentSession();
@@ -208,6 +209,59 @@ public class HibernateUtil {
 		}
 		session.getTransaction().commit();
 		return p;
+	}
+	
+	public static Project readProjectLikeName(String name) {
+
+		Session session = getSessionFactory().getCurrentSession();
+		if (!session.getTransaction().isActive())
+			session.beginTransaction();
+
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Project> cq = builder.createQuery(Project.class);
+		Root<Project> root = cq.from(Project.class);
+
+		// Query
+		cq.select(root).where(builder.like(root.get("nome"),  "%" + name + "%"));
+
+		Query<Project> q = session.createQuery(cq);
+
+		Project p = null;
+		try {
+			p = q.getSingleResult();
+		} catch (NoResultException ex) {
+			p = null;
+		} catch (NonUniqueResultException e) {
+			if (Util.DEBUG)
+				Util.writeLog("HibernateUtil.java throws exception", e);
+			Logger.getLogger(HibernateUtil.class.getName()).log(Level.SEVERE, "HibernateUtil.java throws exception", e);
+			p = q.getResultList().get(0);
+		}
+		session.getTransaction().commit();
+		return p;
+	}
+	
+	public static List<Project> readAllProjects() {
+		Session session = getSessionFactory().getCurrentSession();
+		if (!session.getTransaction().isActive())
+			session.beginTransaction();
+
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Project> cq = builder.createQuery(Project.class);
+		Root<Project> root = cq.from(Project.class);
+
+		// Query
+		cq.select(root);
+		Query<Project> q = session.createQuery(cq);
+		List<Project> s = null;
+
+		try {
+			s = q.getResultList();
+		} catch (NoResultException ex) {
+			s = null;
+		}
+		session.getTransaction().commit();
+		return s;
 	}
 
 	public static Priority readPriority(float d) {

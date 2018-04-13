@@ -210,7 +210,7 @@ public class QueryReleaseIT {
 		session.getTransaction().commit();
 		return result;
 	}
-
+	
 	public static List<ReleaseitHistory> getAllReleaseItStatus(String idPolarionReleaseIT, Status status) {
 		if (idPolarionReleaseIT == null) {
 			NullPointerException npe = new NullPointerException();

@@ -17,6 +17,7 @@ import basic.HibernateUtil;
 import basic.Util;
 import entities.Checklist;
 import entities.Defect;
+import entities.Release;
 import entities.ReleaseHistory;
 import entities.ReleaseIt;
 import entities.ReleaseitHistory;
@@ -133,6 +134,27 @@ public class JsonReleaseITGeneralInfo {
 		}
 
 		return obj;
+	}
+	
+	public static JSONArray getDetailReleaseFromProject(Release r) {
+		if (r == null)
+			return null;
+
+		JSONArray objArray = new JSONArray();
+		int columnIndex = 0;
+
+		String idPolarion = QueryInfoRelease.getIdReleaseItFromReleaseId(r.getIdPolarion());
+		
+		if(idPolarion != ""){
+		objArray.add(columnIndex++, QueryReleaseIT.getReleaseByReleaseIT(idPolarion).getIdPolarion());
+		objArray.add(columnIndex++,
+				QueryReleaseIT.getAllRelaseStatusByRelaseIT(idPolarion, "quickfix").size());
+		List<ReleaseHistory> listRH = QueryReleaseIT.getAllRelaseStatusByRelaseIT(idPolarion, null);
+		objArray.add(columnIndex++,
+				CalculateTime.getTimeInDayHourMin(getTimeInAStatusOfRelease(listRH, "quickfix")));
+		}
+
+		return objArray;
 	}
 
 	/**

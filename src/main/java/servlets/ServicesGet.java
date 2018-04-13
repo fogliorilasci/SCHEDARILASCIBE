@@ -50,6 +50,7 @@ import controller.JsonReleaseInfoGeneral;
 import controller.JsonReleaseMev;
 import controller.JsonReleaseProgettoSviluppo;
 import controller.JsonReleaseStatus;
+import controller.QueryInfoRelease;
 import controller.QueryReleaseIT;
 import entities.Csv;
 import entities.Release;
@@ -682,5 +683,48 @@ public class ServicesGet {
 
 		return arr.toString();
 	}
+	
+	@GET
+	@Path("/getListProjects")
+	@Produces("application/json")
+	public String getListProjects() {
+
+		JSONArray arr = JsonReleaseInfoGeneral.getListProjectForStima();
+		
+		System.out.println("-----------JSON-----------");
+		System.out.println(arr);
+		System.out.println("--------------------------");
+
+		return arr.toString();
+		
+	}
+	
+	@GET
+	@Path("/getStimaProject")
+	@Produces("application/json")
+	public void getStimaProject(@QueryParam("project") String project) {
+
+		// TO DO TIMING
+		
+	}
+
+	@GET
+	@Path("/getDettaglioProjects")
+	@Produces("application/json")
+	public JSONArray getDettaglioProjects(@QueryParam("project") String project) {
+
+		List<Release> allReleases = QueryInfoRelease.getReleaseFromProject(project);
+		
+		JSONArray objArray = new JSONArray();
+		int col = 0;
+		
+		for (Release release : allReleases) {
+			objArray.add(col++, JsonReleaseITGeneralInfo.getDetailReleaseFromProject(release));
+		}
+		
+		return objArray;
+		
+	}
+	
 
 }
